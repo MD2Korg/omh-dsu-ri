@@ -5,7 +5,8 @@ jdk:
 notifications:
   slack:
     rooms:
-      secure: HxrF1m7dSi+gSAAqHtV9+a4DO6T2ggRTxzJ3F8lJRgnA+mPj7uoOfyoUVipf6G0YNAGqeV6mDsvM1U//qEAgoUOUxLwCc8xvEu5moF8oiAuYDoEVBE/JZeiUGMZ7/xcqt9WlS7ef4uMNeN9BDIhnlCZs4IjXHUuRUFDsWquleFo=
+      secure: 11oKMW7CLq1aSub0eXbJ/trTcTeIgEmkHqODgiw/2QiNPR7gd9QL5Rnmtrrf8I9PM+BtN7Q1gDoiXEUhqvUI/Fh133t7SPnC7q/FufdHiFMi24ODwJQLFGxiI1M/FVox+GabDxCSDxDo1VUrisMCk+HPQ04q/zvs/QDd+2YYyg2eOA1mVKTAejqhQpHpG4OJyT6D2Aec2f29hKHUqU1TM/pA7VoWdnQp3KnaFD3KFnarVD3u/J2f8/bboS7i2bu5ATYbruOYfs9XfooKjoX3/HrEltwKWlJZzMd0lPt78cwXVQ17CFEsNWVjPAgi9dcZUGru3xjdqP9Fv/s4WD+hS2C8t9/o4/gfavKf2hbH5YOZeFzGPKt7cfuJRCq3rhHjcKh7ROnhdQofMfN/zuq62Z+mhhRwi0yu8khH/38VJ2BCEs2UsHwjSLg96kMAP/noOf0snT9tosY6DApvHdAjqtH8VHOrUTtgQRhMuTBSIZtSy0yLMrY3fIB3Xc0bZheDToRecpZsOBk7RThymbFRxo2JvF7Vl9M6s4e4GcGUCPcMpJbfz8HF+Bi3BYmqFdF2BqWpYl41MtP5HtI7L5QU+Fxw0dMCLYcrTx+Azoxg2BB0Al9+wO7GVmNXWZNpObo0Id+/UMrV+no7BOQeOSE5sYg+f56atPNvnbFWogtE0rs=
+
 sudo: false
 
 cache:
