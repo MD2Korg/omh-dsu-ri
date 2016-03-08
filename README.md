@@ -1,4 +1,4 @@
-# Open mHealth Storage Endpoint [![Build Status](https://travis-ci.org/openmhealth/omh-dsu-ri.svg?branch=master)](https://travis-ci.org/openmhealth/omh-dsu-ri)
+# Open mHealth Storage Endpoint [![Build Status](https://travis-ci.org/MD2Korg/openmhealth-api-endpoint.svg?branch=master)](https://travis-ci.org/MD2Korg/openmhealth-api-endpoint)
 
 This repository contains the Java reference implementation of an [Open mHealth](http://www.openmhealth.org/)
 [Data Point API](docs/raml/API.yml) storage endpoint.
