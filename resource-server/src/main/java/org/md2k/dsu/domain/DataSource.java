@@ -17,6 +17,7 @@
 package org.md2k.dsu.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 
 /**
@@ -26,7 +27,9 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "datasources")
-public class DataSource {
+public class DataSource implements Serializable {
+
+    private static final long serialVersionUID = -5347099822992697959L;
 
     private Long id;
     private String dataSourceType;

@@ -17,6 +17,7 @@
 package org.md2k.dsu.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 
 /**
@@ -26,7 +27,9 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "datastreams")
-public class DataStream {
+public class DataStream implements Serializable {
+
+    private static final long serialVersionUID = -7943728245175325579L;
 
     private Long id;
     private DataSource dataSource;

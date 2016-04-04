@@ -17,6 +17,7 @@
 package org.md2k.dsu.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 
@@ -28,7 +29,9 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Table(name = "datapoints")
-public class DataSample implements DataPoint {
+public class DataSample implements DataPoint, Serializable {
+
+    private static final long serialVersionUID = -249433556588372891L;
 
     private Long id;
     private DataStream dataStream;

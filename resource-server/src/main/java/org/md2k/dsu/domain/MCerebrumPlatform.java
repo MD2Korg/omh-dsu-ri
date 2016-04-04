@@ -16,9 +16,11 @@
 
 package org.md2k.dsu.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 
 /**
@@ -28,7 +30,9 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "m_cerebrum_platforms")
-public class MCerebrumPlatform {
+public class MCerebrumPlatform implements Serializable {
+
+    private static final long serialVersionUID = 7257561890103895326L;
 
     private Long id;
     private String identifier;
@@ -62,6 +66,7 @@ public class MCerebrumPlatform {
      *
      * @return a secondary platform identifier, for example {@code LEFT_WRIST}
      */
+    @Column(name = "platformtype")
     public String getPlatformType() {
         return platformType;
     }

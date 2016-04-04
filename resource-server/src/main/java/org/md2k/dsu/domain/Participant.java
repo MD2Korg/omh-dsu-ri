@@ -19,6 +19,7 @@ package org.md2k.dsu.domain;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 
 /**
@@ -28,7 +29,9 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "participants")
-public class Participant {
+public class Participant implements Serializable {
+
+    private static final long serialVersionUID = -1461772592948907477L;
 
     private String id;
     private String identifier;
