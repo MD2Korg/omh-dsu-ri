@@ -16,9 +16,8 @@
 
 package org.md2k.dsu.domain;
 
-import org.springframework.data.annotation.Id;
-
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 

@@ -16,8 +16,6 @@
 
 package org.md2k.dsu.domain;
 
-import org.springframework.data.annotation.Id;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -101,6 +99,7 @@ public class DataSample implements DataPoint {
 
     /**
      * @return an array of sample values as a JSON document
+     *
      * @see {@link DataSource#getDataDescriptor()}
      */
     @Column(name = "sample")

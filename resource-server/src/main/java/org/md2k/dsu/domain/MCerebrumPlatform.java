@@ -17,6 +17,7 @@
 package org.md2k.dsu.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 
@@ -34,6 +35,7 @@ public class MCerebrumPlatform {
     private String platformType;
     private String metadata;
 
+    @Id
     public Long getId() {
         return id;
     }
