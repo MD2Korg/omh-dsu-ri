@@ -16,6 +16,8 @@
 
 package org.md2k.dsu.domain;
 
+import org.md2k.dsu.repository.LocalDateTimeAttributeConverter;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -68,6 +70,7 @@ public class DataSample implements DataPoint, Serializable {
      * offset
      */
     @Column(name = "timestamp")
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
     public LocalDateTime getEffectiveTimestamp() {
         return effectiveTimestamp;
     }
@@ -80,6 +83,7 @@ public class DataSample implements DataPoint, Serializable {
      * @return the creation time of this sample in UTC
      */
     @Column(name = "created_at")
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
     public LocalDateTime getCreationTimestamp() {
         return creationTimestamp;
     }
@@ -92,6 +96,7 @@ public class DataSample implements DataPoint, Serializable {
      * @return the modification time of this sample in UTC
      */
     @Column(name = "updated_at")
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
     public LocalDateTime getModificationTimestamp() {
         return modificationTimestamp;
     }
