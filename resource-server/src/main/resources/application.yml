@@ -32,6 +32,9 @@ spring:
   jackson:
     serialization:
       indent-output: true
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
 
 logging:
   level:

@@ -16,10 +16,13 @@
 
 package org.openmhealth.dsu.configuration;
 
+import org.md2k.dsu.domain.DataSample;
 import org.openmhealth.dsu.repository.ClientDetailsRepository;
 import org.openmhealth.dsu.repository.MongoDataPointRepository;
+import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
@@ -36,7 +39,9 @@ import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
         @Filter(type = ASSIGNABLE_TYPE, value = ClientDetailsRepository.class),
         @Filter(type = ASSIGNABLE_TYPE, value = MongoDataPointRepository.class)
 })
-@EnableJpaRepositories(basePackages = "org.openmhealth.dsu.repository", includeFilters = {
+@EnableJpaRepositories(basePackages = "org.md2k.dsu.repository", includeFilters = {
+        @Filter(type = ASSIGNABLE_TYPE, value = JpaRepository.class),
 })
+@EntityScan(basePackageClasses = DataSample.class)
 public class RepositoryConfiguration {
 }
