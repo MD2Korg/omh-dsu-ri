@@ -24,15 +24,15 @@ import java.io.Serializable;
 
 
 /**
- * An mCerebrum application.
+ * An mCerebrum platform app.
  *
  * @author Emerson Farrugia
  */
 @Entity
-@Table(name = "m_cerebrum_applications")
-public class MCerebrumApplication implements Serializable {
+@Table(name = "m_cerebrum_platform_apps")
+public class MCerebrumPlatformApp implements Serializable {
 
-    private static final long serialVersionUID = -902461921323994205L;
+    private static final long serialVersionUID = -9165080265134119599L;
 
     private Long id;
     private String identifier;
@@ -50,8 +50,8 @@ public class MCerebrumApplication implements Serializable {
 
     /**
      * TODO find a better description of this property
-
-     * @return an application identifier, for example {@code org.md2k.streamprocessor}
+     *
+     * @return a platform app identifier
      */
     public String getIdentifier() {
         return identifier;
@@ -64,9 +64,9 @@ public class MCerebrumApplication implements Serializable {
     /**
      * TODO find a better description of this property
      *
-     * @return an application type
+     * @return a platform app type
      */
-    @Column(name = "applicationtype")
+    @Column(name = "platformapptype")
     public String getType() {
         return type;
     }
@@ -76,7 +76,7 @@ public class MCerebrumApplication implements Serializable {
     }
 
     /**
-     * @return metadata about this application as a JSON document
+     * @return metadata about this platform app as a JSON document
      */
     public String getMetadata() {
         return metadata;

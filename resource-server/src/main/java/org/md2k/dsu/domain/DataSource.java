@@ -32,7 +32,8 @@ public class DataSource implements Serializable {
     private static final long serialVersionUID = -5347099822992697959L;
 
     private Long id;
-    private String dataSourceType;
+    private String identifier;
+    private String type;
     private String dataDescriptor;
     private String metadata;
     private MCerebrumApplication application;
@@ -49,19 +50,35 @@ public class DataSource implements Serializable {
     }
 
     /**
+     * TODO find a better description of this property
+     *
+     * @return a data source identifier
+     */
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    /**
+     * TODO find a better description of this property
+     *
      * @return the category this data source belongs to, for example {@code ACCELEROMETER_X}
      */
     @Column(name = "datasourcetype")
-    public String getDataSourceType() {
-        return dataSourceType;
+    public String getType() {
+        return type;
     }
 
-    public void setDataSourceType(String dataSourceType) {
-        this.dataSourceType = dataSourceType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     /**
      * @return a description of the array of sample values created by this data source as a JSON document
+     *
      * @see {@link DataSample#getValue()}
      */
     @Column(name = "datadescriptor")

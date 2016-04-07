@@ -36,7 +36,7 @@ public class MCerebrumPlatform implements Serializable {
 
     private Long id;
     private String identifier;
-    private String platformType;
+    private String type;
     private String metadata;
 
     @Id
@@ -49,7 +49,7 @@ public class MCerebrumPlatform implements Serializable {
     }
 
     /**
-     * TODO talk to Mani about the significance of these fields
+     * TODO find a better description of this property
      *
      * @return a platform identifier, for example {@code MICROSOFT_BAND}
      */
@@ -62,17 +62,17 @@ public class MCerebrumPlatform implements Serializable {
     }
 
     /**
-     * TODO talk to Mani about the significance of these fields
+     * TODO find a better description of this property
      *
      * @return a secondary platform identifier, for example {@code LEFT_WRIST}
      */
     @Column(name = "platformtype")
-    public String getPlatformType() {
-        return platformType;
+    public String getType() {
+        return type;
     }
 
-    public void setPlatformType(String platformType) {
-        this.platformType = platformType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     /**
