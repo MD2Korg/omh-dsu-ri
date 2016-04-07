@@ -38,6 +38,7 @@ public class DataSource implements Serializable {
     private String metadata;
     private MCerebrumApplication application;
     private MCerebrumPlatform platform;
+    private MCerebrumPlatformApp platformApp;
 
 
     @Id
@@ -125,5 +126,18 @@ public class DataSource implements Serializable {
 
     public void setPlatform(MCerebrumPlatform platform) {
         this.platform = platform;
+    }
+
+    /**
+     * @return the platform app this data source belongs to
+     */
+    @ManyToOne
+    @JoinColumn(name = "m_cerebrum_platform_app_id")
+    public MCerebrumPlatformApp getPlatformApp() {
+        return platformApp;
+    }
+
+    public void setPlatformApp(MCerebrumPlatformApp platformApp) {
+        this.platformApp = platformApp;
     }
 }
