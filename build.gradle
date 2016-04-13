@@ -50,7 +50,7 @@ subprojects {
         javaxElApiVersion = "3.0.0"
         jsr305Version = "3.0.1"
         mailApiVersion = "1.5.2"
-        omhSchemaSdkVersion = "1.0.5"
+        omhSchemaSdkVersion = "1.0.6"
         validationApiVersion = "1.1.0.Final"
     }
 
