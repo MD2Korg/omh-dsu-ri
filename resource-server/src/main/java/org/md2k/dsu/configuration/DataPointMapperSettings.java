@@ -16,10 +16,12 @@
 
 package org.md2k.dsu.configuration;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.openmhealth.dsu.validation.ValidSchemaName;
 import org.openmhealth.dsu.validation.ValidSchemaNamespace;
 import org.openmhealth.dsu.validation.ValidSchemaVersion;
+import org.openmhealth.schema.domain.omh.SchemaId;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -35,9 +37,9 @@ import java.util.List;
 public class DataPointMapperSettings {
 
     private String mapperIdentifier;
-    private String schemaNamespace;
-    private String schemaName;
-    private String schemaVersion;
+    private String bodySchemaNamespace;
+    private String bodySchemaName;
+    private String bodySchemaVersion;
     private List<PropertyMapping> propertyMappings;
 
     /**
@@ -58,12 +60,13 @@ public class DataPointMapperSettings {
      */
     @NotNull
     @ValidSchemaNamespace
-    public String getSchemaNamespace() {
-        return schemaNamespace;
+    @JsonProperty(value = "schemaNamespace")
+    public String getBodySchemaNamespace() {
+        return bodySchemaNamespace;
     }
 
-    public void setSchemaNamespace(String schemaNamespace) {
-        this.schemaNamespace = schemaNamespace;
+    public void setBodySchemaNamespace(String bodySchemaNamespace) {
+        this.bodySchemaNamespace = bodySchemaNamespace;
     }
 
     /**
@@ -71,12 +74,13 @@ public class DataPointMapperSettings {
      */
     @NotNull
     @ValidSchemaName
-    public String getSchemaName() {
-        return schemaName;
+    @JsonProperty(value = "schemaName")
+    public String getBodySchemaName() {
+        return bodySchemaName;
     }
 
-    public void setSchemaName(String schemaName) {
-        this.schemaName = schemaName;
+    public void setBodySchemaName(String bodySchemaName) {
+        this.bodySchemaName = bodySchemaName;
     }
 
     /**
@@ -84,12 +88,22 @@ public class DataPointMapperSettings {
      */
     @NotNull
     @ValidSchemaVersion
-    public String getSchemaVersion() {
-        return schemaVersion;
+    @JsonProperty(value = "schemaVersion")
+    public String getBodySchemaVersion() {
+        return bodySchemaVersion;
     }
 
-    public void setSchemaVersion(String schemaVersion) {
-        this.schemaVersion = schemaVersion;
+    public void setBodySchemaVersion(String bodySchemaVersion) {
+        this.bodySchemaVersion = bodySchemaVersion;
+    }
+
+
+    /**
+     * @return the body schema of the mapped data point
+     */
+    @JsonIgnore
+    public SchemaId getBodySchemaId() {
+        return new SchemaId(bodySchemaNamespace, bodySchemaName, bodySchemaVersion);
     }
 
     /**
