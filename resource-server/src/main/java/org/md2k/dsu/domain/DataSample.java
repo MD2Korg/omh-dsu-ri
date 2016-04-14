@@ -16,6 +16,8 @@
 
 package org.md2k.dsu.domain;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import org.md2k.dsu.repository.JsonNodeAttributeConverter;
 import org.md2k.dsu.repository.LocalDateTimeAttributeConverter;
 
 import javax.persistence.*;
@@ -40,7 +42,7 @@ public class DataSample implements DataPoint, Serializable {
     private LocalDateTime effectiveTimestamp;
     private LocalDateTime creationTimestamp;
     private LocalDateTime modificationTimestamp;
-    private String value; // will need to look into mapping this to a JSON array
+    private JsonNode value;
     private Integer offsetInMinutes;
 
     @Id
@@ -111,11 +113,12 @@ public class DataSample implements DataPoint, Serializable {
      * @see {@link DataSource#getDataDescriptor()}
      */
     @Column(name = "sample")
-    public String getValue() {
+    @Convert(converter = JsonNodeAttributeConverter.class)
+    public JsonNode getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(JsonNode value) {
         this.value = value;
     }
 
