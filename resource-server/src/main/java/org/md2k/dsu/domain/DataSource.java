@@ -82,6 +82,7 @@ public class DataSource implements Serializable {
      *
      * @see {@link DataSample#getValue()}
      */
+    // TODO consider making this, or a sibling method, return a JsonNode
     @Column(name = "datadescriptor")
     public String getDataDescriptor() {
         return dataDescriptor;
