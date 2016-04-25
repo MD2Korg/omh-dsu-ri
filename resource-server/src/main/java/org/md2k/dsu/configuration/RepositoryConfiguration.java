@@ -14,27 +14,33 @@
  * limitations under the License.
  */
 
-package org.openmhealth.dsu.configuration;
+package org.md2k.dsu.configuration;
 
-import org.openmhealth.dsu.repository.ClientDetailsRepository;
-import org.openmhealth.dsu.repository.MongoDataPointRepository;
+import org.md2k.dsu.domain.DataSample;
+import org.md2k.dsu.repository.DataPointSearchConfigurationRepository;
+import org.md2k.dsu.repository.DataSampleRepository;
+import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
 
 
 /**
- * A configuration for Spring Data repositories.
+ * A configuration for Spring Data repositories specific to MD2K.
  *
  * @author Emerson Farrugia
  */
-@Configuration
-@EnableMongoRepositories(basePackages = "org.openmhealth.dsu.repository", includeFilters = {
-        @Filter(type = ASSIGNABLE_TYPE, value = ClientDetailsRepository.class),
-        @Filter(type = ASSIGNABLE_TYPE, value = MongoDataPointRepository.class) // TODO consider removing for simplicity
+@Configuration("md2kRepositoryConfiguration")
+@EnableJpaRepositories(basePackages = "org.md2k.dsu.repository", includeFilters = {
+        @Filter(type = ASSIGNABLE_TYPE, value = DataSampleRepository.class),
 })
+@EnableMongoRepositories(basePackages = "org.md2k.dsu.repository", includeFilters = {
+        @Filter(type = ASSIGNABLE_TYPE, value = DataPointSearchConfigurationRepository.class),
+})
+@EntityScan(basePackageClasses = DataSample.class)
 public class RepositoryConfiguration {
 
 }
