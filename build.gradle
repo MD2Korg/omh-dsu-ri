@@ -54,6 +54,9 @@ subprojects {
         validationApiVersion = "1.1.0.Final"
     }
 
+    // required to support Querydsl 4.x, but also good to be on latest stable if Querydsl isn't used
+    ext['spring-data-releasetrain.version'] = 'Hopper-SR1'
+
     sourceCompatibility = javaVersion
     targetCompatibility = javaVersion
 
