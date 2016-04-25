@@ -17,24 +17,36 @@
 package org.md2k.dsu.configuration;
 
 import org.openmhealth.dsu.domain.DataPointSearchCriteria;
+import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 
 /**
- * A specification for handling requests for data points.
+ * A configuration for handling requests for data points.
  *
  * @author Emerson Farrugia
  */
-public class DataPointSearchSettings {
+public class DataPointSearchConfiguration {
 
+    private String id;
     private DataPointSearchCriteria searchCriteria;
     private Map<String, String> databaseQueryFilters;
     private DataPointMapperSettings mapperSettings;
 
+
+    @Id
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     /**
-     * @return the search criteria that will trigger the use of these settings when handling a data point request
+     * @return the search criteria that will trigger the use of this configuration when handling a data point request
      */
     @NotNull
     // TODO @Valid is intentionally omitted until configuration loading is sorted out
