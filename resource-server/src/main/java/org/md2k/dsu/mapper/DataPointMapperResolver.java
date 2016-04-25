@@ -16,9 +16,6 @@
 
 package org.md2k.dsu.mapper;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,18 +27,20 @@ import static java.lang.String.format;
 /**
  * A service that returns data point mappers by identifier.
  *
+ * @param <I> the input type of the mappers
  * @author Emerson Farrugia
  */
-@Service
-public class DataPointMapperResolver {
+public abstract class DataPointMapperResolver<I> {
 
-    private Map<String, DataPointMapper> mappers = new HashMap<>();
+    private Map<String, DataPointMapper<I>> mappers = new HashMap<>();
 
 
-    @Autowired
-    public DataPointMapperResolver(List<DataPointMapper> mappers) {
+    /**
+     * @param mappers the mappers this resolver is aware of
+     */
+    DataPointMapperResolver(List<DataPointMapper<I>> mappers) {
 
-        for (DataPointMapper mapper : mappers) {
+        for (DataPointMapper<I> mapper : mappers) {
             if (this.mappers.put(mapper.getIdentifier(), mapper) != null) {
 
                 throw new IllegalArgumentException(
@@ -54,7 +53,7 @@ public class DataPointMapperResolver {
      * @param mapperId the identifier of the mapper
      * @return the corresponding mapper, if any
      */
-    public Optional<DataPointMapper> getMapper(String mapperId) {
+    public Optional<DataPointMapper<I>> getMapper(String mapperId) {
 
         return Optional.ofNullable(mappers.get(mapperId));
     }
