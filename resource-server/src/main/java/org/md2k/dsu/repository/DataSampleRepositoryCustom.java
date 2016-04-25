@@ -16,17 +16,23 @@
 
 package org.md2k.dsu.repository;
 
+import org.md2k.dsu.configuration.DataPointSearchConfiguration;
 import org.md2k.dsu.domain.DataSample;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.openmhealth.dsu.domain.DataPointSearchCriteria;
+
+import java.util.List;
 
 
 /**
- * A repository of data samples.
- *
  * @author Emerson Farrugia
  */
-public interface DataSampleRepository
-        extends JpaRepository<DataSample, Long>, JpaSpecificationExecutor<DataSample>, DataSampleRepositoryCustom {
+public interface DataSampleRepositoryCustom {
 
+    /**
+     * @param searchConfiguration a search configuration
+     * @param searchCriteria some data point search criteria from a request
+     * @return the data samples that match both the criteria and the search configuration
+     */
+    List<DataSample> findBySearchConfigurationAndSearchCriteria(DataPointSearchConfiguration searchConfiguration,
+            DataPointSearchCriteria searchCriteria);
 }
