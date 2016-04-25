@@ -19,6 +19,7 @@ package org.md2k.dsu.mapper;
 import org.md2k.dsu.configuration.DataPointMapperSettings;
 import org.openmhealth.schema.domain.omh.DataPoint;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -34,6 +35,18 @@ public interface DataPointMapper<I> {
      * @return the unique identifier of this mapper
      */
     String getIdentifier();
+
+    /**
+     * Maps an input into one or more data points.
+     *
+     * @param input a single input
+     * @param mapperSettings a configuration for this mapper
+     * @return the list of data points mapped from the input
+     */
+    default List<DataPoint<?>> asDataPoints(I input, DataPointMapperSettings mapperSettings) {
+
+        return asDataPoints(Collections.singletonList(input), mapperSettings);
+    }
 
     /**
      * Maps one or more inputs into one or more data points. The method accepts multiple inputs to allow a mapper to
