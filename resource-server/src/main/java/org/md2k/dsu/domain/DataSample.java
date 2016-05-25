@@ -41,10 +41,10 @@ public class DataSample implements DataPoint, Serializable {
     private Long id;
     private DataStream dataStream;
     private LocalDateTime effectiveTimestamp;
+    private Integer offsetInMinutes;
     private LocalDateTime creationTimestamp;
     private LocalDateTime modificationTimestamp;
     private JsonNode value;
-    private Integer offsetInMinutes;
 
     @Id
     public Long getId() {
@@ -70,8 +70,7 @@ public class DataSample implements DataPoint, Serializable {
     }
 
     /**
-     * TODO fix docs
-     * @return the local effective time of this sample, assuming a {@link DataSample#getOffsetInMinutes()} time zone
+     * @return the effective time of this sample in UTC, assuming a {@link DataSample#getOffsetInMinutes()} time zone
      * offset
      */
     @Column(name = "timestamp")
@@ -84,6 +83,7 @@ public class DataSample implements DataPoint, Serializable {
     public void setEffectiveTimestamp(LocalDateTime effectiveTimestamp) {
         this.effectiveTimestamp = effectiveTimestamp;
     }
+
 
     /**
      * @return the creation time of this sample in UTC
@@ -127,6 +127,7 @@ public class DataSample implements DataPoint, Serializable {
         this.value = value;
     }
 
+
     /**
      * @return the time zone offset of the effective time of this sample in minutes
      */
@@ -138,4 +139,5 @@ public class DataSample implements DataPoint, Serializable {
     public void setOffsetInMinutes(Integer offset) {
         this.offsetInMinutes = offset;
     }
+
 }

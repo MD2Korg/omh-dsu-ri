@@ -64,7 +64,7 @@ public class DataPointSearchServiceImpl implements DataPointSearchService, Initi
     private DataPointMapperResolver<DataSample> mapperResolver;
 
 
-    // FIXME figure out what pagination strategy we'd like to use
+    // TODO discuss what pagination strategy we'd like to use
     @Override
     @Transactional(readOnly = true)
     public DataPointSearchResult findBySearchCriteria(DataPointSearchCriteria searchCriteria, @Nullable Long offset,

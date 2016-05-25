@@ -24,6 +24,7 @@ import org.md2k.dsu.domain.QDataSample;
 import org.openmhealth.dsu.domain.DataPointSearchCriteria;
 import org.springframework.data.jpa.repository.support.QueryDslRepositorySupport;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +33,6 @@ import static com.github.vineey.rql.querydsl.filter.QueryDslFilterContext.withMa
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.md2k.dsu.configuration.DatabaseQueryFilterAliasConfiguration.predicateCache;
 import static org.md2k.dsu.configuration.DatabaseQueryFilterAliasConfiguration.searchMappings;
-import static org.md2k.dsu.repository.DataSampleSpecifications.atUtc;
 
 
 /**
@@ -85,6 +85,10 @@ public class DataSampleRepositoryImpl extends QueryDslRepositorySupport implemen
                 .offset(offset)
                 .limit(limit)
                 .fetch();
+    }
+
+    private LocalDateTime atUtc(OffsetDateTime offsetDateTime) {
+        return offsetDateTime.toLocalDateTime(); // FIXME: Ask Emerson re offset
     }
 
 }
