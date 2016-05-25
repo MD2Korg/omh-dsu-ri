@@ -40,10 +40,10 @@ public class DataSample implements DataPoint, Serializable {
     private Long id;
     private DataStream dataStream;
     private LocalDateTime effectiveTimestamp;
+    private Integer offsetInMinutes;
     private LocalDateTime creationTimestamp;
     private LocalDateTime modificationTimestamp;
     private JsonNode value;
-    private Integer offsetInMinutes;
 
     @Id
     public Long getId() {
@@ -68,7 +68,7 @@ public class DataSample implements DataPoint, Serializable {
     }
 
     /**
-     * @return the local effective time of this sample, assuming a {@link DataSample#getOffsetInMinutes()} time zone
+     * @return the effective time of this sample in UTC, assuming a {@link DataSample#getOffsetInMinutes()} time zone
      * offset
      */
     @Column(name = "timestamp")
@@ -79,6 +79,18 @@ public class DataSample implements DataPoint, Serializable {
 
     public void setEffectiveTimestamp(LocalDateTime effectiveTimestamp) {
         this.effectiveTimestamp = effectiveTimestamp;
+    }
+
+    /**
+     * @return the local time zone offset of the effective time of this sample in minutes
+     */
+    @Column(name = "offset")
+    public Integer getOffsetInMinutes() {
+        return offsetInMinutes;
+    }
+
+    public void setOffsetInMinutes(Integer offset) {
+        this.offsetInMinutes = offset;
     }
 
     /**
@@ -120,17 +132,5 @@ public class DataSample implements DataPoint, Serializable {
 
     public void setValue(JsonNode value) {
         this.value = value;
-    }
-
-    /**
-     * @return the time zone offset of the effective time of this sample in minutes
-     */
-    @Column(name = "offset")
-    public Integer getOffsetInMinutes() {
-        return offsetInMinutes;
-    }
-
-    public void setOffsetInMinutes(Integer offset) {
-        this.offsetInMinutes = offset;
     }
 }
