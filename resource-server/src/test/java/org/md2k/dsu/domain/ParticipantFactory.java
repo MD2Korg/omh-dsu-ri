@@ -16,6 +16,7 @@
 
 package org.md2k.dsu.domain;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 
@@ -28,9 +29,10 @@ public class ParticipantFactory {
 
         Participant participant = new Participant();
 
-        participant.setId(UUID.randomUUID().toString());
+        participant.setId(UUID.randomUUID());
         participant.setIdentifier("joe");
-
+        participant.setModificationTimestamp(LocalDateTime.now());
+        participant.setCreationTimestamp(LocalDateTime.now());
         return participant;
     }
 }

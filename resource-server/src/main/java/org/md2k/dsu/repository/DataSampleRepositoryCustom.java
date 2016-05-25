@@ -30,9 +30,9 @@ public interface DataSampleRepositoryCustom {
 
     /**
      * @param searchConfiguration a search configuration
-     * @param searchCriteria some data point search criteria from a request
+     * @param searchCriteria      some data point search criteria from a request
      * @return the data samples that match both the criteria and the search configuration
      */
     List<DataSample> findBySearchConfigurationAndSearchCriteria(DataPointSearchConfiguration searchConfiguration,
-            DataPointSearchCriteria searchCriteria);
+                                                                DataPointSearchCriteria searchCriteria, long offset, long limit);
 }

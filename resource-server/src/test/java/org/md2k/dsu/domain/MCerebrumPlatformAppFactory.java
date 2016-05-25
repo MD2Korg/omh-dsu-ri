@@ -16,6 +16,8 @@
 
 package org.md2k.dsu.domain;
 
+import java.time.LocalDateTime;
+
 /**
  * @author Emerson Farrugia
  */
@@ -29,8 +31,9 @@ public class MCerebrumPlatformAppFactory {
         platformApp.setId(1L);
         platformApp.setIdentifier("");
         platformApp.setType("");
-        platformApp.setMetadata("");
-
+        platformApp.setMetadata("{}");
+        platformApp.setCreationTimestamp(LocalDateTime.now());
+        platformApp.setModificationTimestamp(LocalDateTime.now());
         return platformApp;
     }
 }

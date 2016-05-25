@@ -14,20 +14,31 @@
  * limitations under the License.
  */
 
+plugins {
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.6"
+}
+
 description = "An OAuth 2.0 resource server that manages data point resources."
+
+
 
 dependencies {
     compile project(":shared")
-    compile "com.google.guava:guava:${guavaVersion}"
-    compile "org.hibernate:hibernate-entitymanager"
-    compile "com.jayway.jsonpath:json-path"
+    compile "com.github.vineey:rsql-querydsl-all:${rsqlVersion}"
     compile "com.google.code.findbugs:jsr305:${jsr305Version}"
+    compile "com.google.guava:guava:${guavaVersion}"
+    compile "com.jayway.jsonpath:json-path"
+    compile "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    compile "com.querydsl:querydsl-mongodb:${queryDslVersion}"
     compile "javax.servlet:javax.servlet-api"
+    compile "org.hibernate:hibernate-entitymanager"
     compile "org.openmhealth.schema:omh-schema-sdk:${omhSchemaSdkVersion}"
-    compile "org.springframework:spring-aspects"
     compile "org.springframework.data:spring-data-jpa"
+    compile "org.springframework:spring-aspects"
     compile "org.springframework:spring-web"
     compile "org.springframework:spring-webmvc"
+
+
 
     runtime "org.hibernate:hibernate-validator"
     runtime "javax.el:javax.el-api:${javaxElApiVersion}"
@@ -39,4 +50,10 @@ dependencies {
 
 bootRepackage {
     mainClass = "org.openmhealth.dsu.configuration.Application"
+}
+
+querydsl{
+//    library = "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    jpa = true
+    springDataMongo = true
 }

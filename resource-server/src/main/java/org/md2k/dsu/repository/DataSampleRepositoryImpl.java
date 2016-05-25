@@ -16,29 +16,75 @@
 
 package org.md2k.dsu.repository;
 
+import com.github.vineey.rql.filter.parser.DefaultFilterParser;
+import com.querydsl.core.BooleanBuilder;
 import org.md2k.dsu.configuration.DataPointSearchConfiguration;
 import org.md2k.dsu.domain.DataSample;
+import org.md2k.dsu.domain.QDataSample;
 import org.openmhealth.dsu.domain.DataPointSearchCriteria;
+import org.springframework.data.jpa.repository.support.QueryDslRepositorySupport;
 
+import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
+
+import static com.github.vineey.rql.querydsl.filter.QueryDslFilterContext.withMapping;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.md2k.dsu.configuration.DatabaseQueryFilterAliasConfiguration.predicateCache;
+import static org.md2k.dsu.configuration.DatabaseQueryFilterAliasConfiguration.searchMappings;
+import static org.md2k.dsu.repository.DataSampleSpecifications.atUtc;
 
 
 /**
  * @author Emerson Farrugia
  */
-public class DataSampleRepositoryImpl implements DataSampleRepositoryCustom {
+public class DataSampleRepositoryImpl extends QueryDslRepositorySupport implements DataSampleRepositoryCustom {
 
-    // TODO pagination?
+    /**
+     * Creates a new {@link QueryDslRepositorySupport} instance for the given domain type.
+     */
+    public DataSampleRepositoryImpl() {
+        super(DataSample.class);
+    }
+
+
     @Override
     public List<DataSample> findBySearchConfigurationAndSearchCriteria(DataPointSearchConfiguration searchConfiguration,
-            DataPointSearchCriteria searchCriteria) {
+                                                                       DataPointSearchCriteria searchCriteria, long offset, long limit) {
 
-        // FIXME implement this
-        // create query
-        // add search criteria
-        // add configuration filters
-        // return results
 
-        return null;
+        checkNotNull(searchConfiguration);
+        checkNotNull(searchConfiguration.getSearchCriteria());
+
+        Optional<OffsetDateTime> from = searchCriteria.getCreatedOnOrAfter();
+        Optional<OffsetDateTime> to = searchCriteria.getCreatedBefore();
+
+        QDataSample qDataSample = QDataSample.dataSample;
+
+        BooleanBuilder builder = new BooleanBuilder();
+        if (from.isPresent() || to.isPresent()) {
+            builder = builder.and(qDataSample.creationTimestamp.between(atUtc(from.orElse(null)), atUtc(to.orElse(null))));
+        }
+
+        from = searchConfiguration.getSearchCriteria().getEffectiveOnOrAfter();
+        to = searchConfiguration.getSearchCriteria().getEffectiveBefore();
+        if (from.isPresent() || to.isPresent()) {
+            builder = builder.and(qDataSample.effectiveTimestamp.between(atUtc(from.orElse(null)), atUtc(to.orElse(null))));
+        }
+
+        DefaultFilterParser filterParser = new DefaultFilterParser();
+
+        String dbFilter = searchConfiguration.getDatabaseQueryFilters();
+
+        if (dbFilter != null) {
+            builder = builder.and(predicateCache.computeIfAbsent(dbFilter, s -> filterParser.parse(s, withMapping(searchMappings))));
+        }
+
+        return from(qDataSample)
+                .where(builder)
+                .offset(offset)
+                .limit(limit)
+                .fetch();
     }
+
 }

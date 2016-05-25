@@ -17,7 +17,8 @@
 package org.md2k.dsu.domain;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.md2k.dsu.repository.JsonNodeAttributeConverter;
+import com.querydsl.core.annotations.QueryInit;
+import org.hibernate.annotations.Type;
 import org.md2k.dsu.repository.LocalDateTimeAttributeConverter;
 
 import javax.persistence.*;
@@ -57,8 +58,9 @@ public class DataSample implements DataPoint, Serializable {
     /**
      * @return the stream this sample belongs to
      */
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "datastream_id")
+    @QueryInit({"dataSource.*", "participant"})
     public DataStream getDataStream() {
         return dataStream;
     }
@@ -68,11 +70,13 @@ public class DataSample implements DataPoint, Serializable {
     }
 
     /**
+     * TODO fix docs
      * @return the local effective time of this sample, assuming a {@link DataSample#getOffsetInMinutes()} time zone
      * offset
      */
     @Column(name = "timestamp")
     @Convert(converter = LocalDateTimeAttributeConverter.class)
+
     public LocalDateTime getEffectiveTimestamp() {
         return effectiveTimestamp;
     }
@@ -113,7 +117,8 @@ public class DataSample implements DataPoint, Serializable {
      * @see {@link DataSource#getDataDescriptor()}
      */
     @Column(name = "sample")
-    @Convert(converter = JsonNodeAttributeConverter.class)
+    @Type(type = "StringJsonObject")
+//    @Convert(converter = JsonNodeAttributeConverter.class)
     public JsonNode getValue() {
         return value;
     }
@@ -125,7 +130,7 @@ public class DataSample implements DataPoint, Serializable {
     /**
      * @return the time zone offset of the effective time of this sample in minutes
      */
-    @Column(name = "offset")
+    @Column(name = "\"offset\"")
     public Integer getOffsetInMinutes() {
         return offsetInMinutes;
     }

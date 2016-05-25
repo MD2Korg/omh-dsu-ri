@@ -16,7 +16,6 @@
 
 package org.md2k.dsu.repository;
 
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -28,10 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class DataSampleRepositoryIntegrationTests {
 
     @Autowired
-    protected DataSampleRepository repository;
+    protected DataSampleRepository dataSampleRepository;
 
-    // TODO add tests
-    @Test
-    public void placeholder() {
-    }
+
 }

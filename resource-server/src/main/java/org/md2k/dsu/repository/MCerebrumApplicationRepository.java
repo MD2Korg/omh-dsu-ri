@@ -16,17 +16,18 @@
 
 package org.md2k.dsu.repository;
 
-import org.md2k.dsu.configuration.DataPointSearchConfiguration;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.md2k.dsu.domain.MCerebrumApplication;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 
 
 /**
- * @author Emerson Farrugia
+ * A repository of data sources.
+ *
+ * @author Wallace Wadge
  */
-public interface DataPointSearchConfigurationRepository extends MongoRepository<DataPointSearchConfiguration, String>,
-        QueryDslPredicateExecutor<DataPointSearchConfiguration>, DataPointSearchConfigurationRepositoryCustom {
-
-
+public interface MCerebrumApplicationRepository
+        extends JpaRepository<MCerebrumApplication, Long>, JpaSpecificationExecutor<MCerebrumApplication>, QueryDslPredicateExecutor<MCerebrumApplication> {
 
 }

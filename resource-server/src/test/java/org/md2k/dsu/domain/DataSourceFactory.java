@@ -16,6 +16,8 @@
 
 package org.md2k.dsu.domain;
 
+import java.time.LocalDateTime;
+
 import static org.md2k.dsu.domain.MCerebrumApplicationFactory.newApplication;
 import static org.md2k.dsu.domain.MCerebrumPlatformAppFactory.newPlatformApp;
 import static org.md2k.dsu.domain.MCerebrumPlatformFactory.newPlatform;
@@ -38,11 +40,11 @@ public class DataSourceFactory {
         dataSource.setId(1L);
         dataSource.setIdentifier("");
         dataSource.setType("HEART_RATE");
-
+        dataSource.setCreationTimestamp(LocalDateTime.now());
+        dataSource.setModificationTimestamp(LocalDateTime.now());
         dataSource.setApplication(application);
         dataSource.setPlatformApp(platformApp);
         dataSource.setPlatform(platform);
-
         dataSource.setDataDescriptor("[\n" +
                 "    {\n" +
                 "        \"NAME\": \"Heart Rate\",\n" +

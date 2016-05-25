@@ -16,6 +16,8 @@
 
 package org.md2k.dsu.domain;
 
+import java.time.LocalDateTime;
+
 /**
  * @author Emerson Farrugia
  */
@@ -27,6 +29,8 @@ public class MCerebrumPlatformFactory {
 
         platform.setId(1L);
         platform.setIdentifier("RIGHT_WRIST");
+        platform.setCreationTimestamp(LocalDateTime.now());
+        platform.setModificationTimestamp(LocalDateTime.now());
         platform.setType("MICROSOFT_BAND");
         platform.setMetadata("{\n" +
                 "    \"NAME\": \"MicrosoftBand (Right Wrist)\",\n" +

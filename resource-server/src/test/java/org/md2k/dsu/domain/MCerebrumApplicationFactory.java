@@ -16,6 +16,8 @@
 
 package org.md2k.dsu.domain;
 
+import java.time.LocalDateTime;
+
 /**
  * @author Emerson Farrugia
  */
@@ -27,6 +29,8 @@ public class MCerebrumApplicationFactory {
 
         application.setId(1L);
         application.setIdentifier("");
+        application.setCreationTimestamp(LocalDateTime.now());
+        application.setModificationTimestamp(LocalDateTime.now());
         application.setType("org.md2k.microsoftband");
         application.setMetadata("{\n" +
                 "    \"VERSION_NAME\": \"0.1.0\",\n" +

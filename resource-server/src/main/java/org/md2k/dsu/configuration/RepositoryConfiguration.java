@@ -17,8 +17,7 @@
 package org.md2k.dsu.configuration;
 
 import org.md2k.dsu.domain.DataSample;
-import org.md2k.dsu.repository.DataPointSearchConfigurationRepository;
-import org.md2k.dsu.repository.DataSampleRepository;
+import org.md2k.dsu.repository.*;
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
@@ -36,6 +35,12 @@ import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
 @Configuration("md2kRepositoryConfiguration")
 @EnableJpaRepositories(basePackages = "org.md2k.dsu.repository", includeFilters = {
         @Filter(type = ASSIGNABLE_TYPE, value = DataSampleRepository.class),
+        @Filter(type = ASSIGNABLE_TYPE, value = DataSourceRepository.class),
+        @Filter(type = ASSIGNABLE_TYPE, value = DataStreamRepository.class),
+        @Filter(type = ASSIGNABLE_TYPE, value = MCerebrumApplicationRepository.class),
+        @Filter(type = ASSIGNABLE_TYPE, value = MCerebrumPlatformAppRepository.class),
+        @Filter(type = ASSIGNABLE_TYPE, value = MCerebrumPlatformRepository.class),
+        @Filter(type = ASSIGNABLE_TYPE, value = ParticipantRepository.class)
 })
 @EnableMongoRepositories(basePackages = "org.md2k.dsu.repository", includeFilters = {
         @Filter(type = ASSIGNABLE_TYPE, value = DataPointSearchConfigurationRepository.class),

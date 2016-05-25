@@ -16,6 +16,8 @@
 
 package org.md2k.dsu.configuration;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -30,6 +32,7 @@ import javax.validation.constraints.Size;
  * @author Emerson Farrugia
  */
 @ValidPropertyMapping
+@Document
 public class PropertyMapping {
 
     private String outputPath;

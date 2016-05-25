@@ -16,8 +16,8 @@
 
 package org.openmhealth.dsu.service;
 
+import org.md2k.dsu.domain.DataPointSearchResult;
 import org.openmhealth.dsu.domain.DataPointSearchCriteria;
-import org.openmhealth.schema.domain.omh.DataPoint;
 
 import javax.annotation.Nullable;
 
@@ -31,10 +31,10 @@ public interface DataPointSearchService {
 
     /**
      * @param searchCriteria the criteria that data points should match
-     * @param offset the index of the first matching data point to return
-     * @param limit the number of matching data points to return
+     * @param offset         the index of the first matching data point to return
+     * @param limit          the number of matching data points to return
      * @return the result of the search
      */
-    Iterable<DataPoint> findBySearchCriteria(DataPointSearchCriteria searchCriteria, @Nullable Integer offset,
-            @Nullable Integer limit);
+    DataPointSearchResult findBySearchCriteria(DataPointSearchCriteria searchCriteria, @Nullable Long offset,
+                                               @Nullable Long limit);
 }

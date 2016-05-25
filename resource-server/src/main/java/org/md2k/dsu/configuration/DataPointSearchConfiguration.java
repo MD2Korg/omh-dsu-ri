@@ -18,9 +18,9 @@ package org.md2k.dsu.configuration;
 
 import org.openmhealth.dsu.domain.DataPointSearchCriteria;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
-import java.util.Map;
 
 
 /**
@@ -28,11 +28,12 @@ import java.util.Map;
  *
  * @author Emerson Farrugia
  */
+@Document
 public class DataPointSearchConfiguration {
 
     private String id;
     private DataPointSearchCriteria searchCriteria;
-    private Map<String, String> databaseQueryFilters;
+    private String databaseQueryFilters;
     private DataPointMapperSettings mapperSettings;
 
 
@@ -62,11 +63,11 @@ public class DataPointSearchConfiguration {
      * @return the filters that will be applied to database queries issued to service the request
      */
     @NotNull
-    public Map<String, String> getDatabaseQueryFilters() {
+    public String getDatabaseQueryFilters() {
         return databaseQueryFilters;
     }
 
-    public void setDatabaseQueryFilters(Map<String, String> databaseQueryFilters) {
+    public void setDatabaseQueryFilters(String databaseQueryFilters) {
         this.databaseQueryFilters = databaseQueryFilters;
     }
 

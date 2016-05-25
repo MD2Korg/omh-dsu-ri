@@ -96,8 +96,9 @@ public class DataPointSearchController {
             @RequestParam(value = CREATED_ON_OR_AFTER_PARAMETER, required = false)
             final OffsetDateTime createdOnOrAfter,
             @RequestParam(value = CREATED_BEFORE_PARAMETER, required = false) final OffsetDateTime createdBefore,
-            @RequestParam(value = RESULT_OFFSET_PARAMETER, defaultValue = "0") final Integer offset,
-            @RequestParam(value = RESULT_LIMIT_PARAMETER, defaultValue = DEFAULT_RESULT_LIMIT) final Integer limit,
+            @RequestParam(value = END_USER_ID_PARAMETER, required = false) final String specifiedEndUserId,
+            @RequestParam(value = RESULT_OFFSET_PARAMETER, defaultValue = "0") final Long offset,
+            @RequestParam(value = RESULT_LIMIT_PARAMETER, defaultValue = DEFAULT_RESULT_LIMIT) final Long limit,
             Authentication authentication) {
 
         // determine the user associated with the access token to restrict the search accordingly
@@ -118,7 +119,8 @@ public class DataPointSearchController {
             return badRequest().body(null);
         }
 
-        Iterable<DataPoint> dataPoints = dataPointSearchService.findBySearchCriteria(searchCriteria, offset, limit);
+        DataPointSearchResult searchResult =
+                dataPointSearchService.findBySearchCriteria(searchCriteria, offset, limit);
 
         HttpHeaders headers = new HttpHeaders();
 

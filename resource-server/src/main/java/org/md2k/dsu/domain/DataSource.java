@@ -16,8 +16,15 @@
 
 package org.md2k.dsu.domain;
 
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
+import org.md2k.dsu.configuration.StringJsonUserType;
+import org.md2k.dsu.repository.LocalDateTimeAttributeConverter;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 
 /**
@@ -27,6 +34,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "datasources")
+@TypeDefs({@TypeDef(name = "StringJsonObject", typeClass = StringJsonUserType.class)})
 public class DataSource implements Serializable {
 
     private static final long serialVersionUID = -5347099822992697959L;
@@ -39,6 +47,9 @@ public class DataSource implements Serializable {
     private MCerebrumApplication application;
     private MCerebrumPlatform platform;
     private MCerebrumPlatformApp platformApp;
+    private LocalDateTime creationTimestamp;
+    private LocalDateTime modificationTimestamp;
+
 
 
     @Id
@@ -84,6 +95,7 @@ public class DataSource implements Serializable {
      */
     // TODO consider making this, or a sibling method, return a JsonNode
     @Column(name = "datadescriptor")
+    @Type(type = "StringJsonObject")
     public String getDataDescriptor() {
         return dataDescriptor;
     }
@@ -95,6 +107,7 @@ public class DataSource implements Serializable {
     /**
      * @return metadata about this data source as a JSON document
      */
+    @Type(type = "StringJsonObject")
     public String getMetadata() {
         return metadata;
     }
@@ -141,4 +154,32 @@ public class DataSource implements Serializable {
     public void setPlatformApp(MCerebrumPlatformApp platformApp) {
         this.platformApp = platformApp;
     }
+
+    /**
+     * @return the creation time of this sample in UTC
+     */
+    @Column(name = "created_at")
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    public LocalDateTime getCreationTimestamp() {
+        return creationTimestamp;
+    }
+
+    public void setCreationTimestamp(LocalDateTime creationTimestamp) {
+        this.creationTimestamp = creationTimestamp;
+    }
+
+    /**
+     * @return the modification time of this sample in UTC
+     */
+    @Column(name = "updated_at")
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    public LocalDateTime getModificationTimestamp() {
+        return modificationTimestamp;
+    }
+
+    public void setModificationTimestamp(LocalDateTime modificationTimestamp) {
+        this.modificationTimestamp = modificationTimestamp;
+    }
+
+
 }

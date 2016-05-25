@@ -22,6 +22,7 @@ import org.openmhealth.dsu.validation.ValidSchemaName;
 import org.openmhealth.dsu.validation.ValidSchemaNamespace;
 import org.openmhealth.dsu.validation.ValidSchemaVersion;
 import org.openmhealth.schema.domain.omh.SchemaId;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -34,6 +35,7 @@ import java.util.List;
  *
  * @author Emerson Farrugia
  */
+@Document
 public class DataPointMapperSettings {
 
     private String mapperIdentifier;

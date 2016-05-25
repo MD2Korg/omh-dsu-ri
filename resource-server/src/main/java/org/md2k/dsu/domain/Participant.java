@@ -16,10 +16,13 @@
 
 package org.md2k.dsu.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.Type;
+import org.md2k.dsu.repository.LocalDateTimeAttributeConverter;
+
+import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 
 /**
@@ -33,15 +36,19 @@ public class Participant implements Serializable {
 
     private static final long serialVersionUID = -1461772592948907477L;
 
-    private String id;
+    private UUID id;
     private String identifier;
+    private LocalDateTime creationTimestamp;
+    private LocalDateTime modificationTimestamp;
+
 
     @Id
-    public String getId() {
+    @Type(type = "pg-uuid")
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -55,4 +62,32 @@ public class Participant implements Serializable {
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }
+
+
+    /**
+     * @return the creation time of this sample in UTC
+     */
+    @Column(name = "created_at")
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    public LocalDateTime getCreationTimestamp() {
+        return creationTimestamp;
+    }
+
+    public void setCreationTimestamp(LocalDateTime creationTimestamp) {
+        this.creationTimestamp = creationTimestamp;
+    }
+
+    /**
+     * @return the modification time of this sample in UTC
+     */
+    @Column(name = "updated_at")
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    public LocalDateTime getModificationTimestamp() {
+        return modificationTimestamp;
+    }
+
+    public void setModificationTimestamp(LocalDateTime modificationTimestamp) {
+        this.modificationTimestamp = modificationTimestamp;
+    }
+
 }

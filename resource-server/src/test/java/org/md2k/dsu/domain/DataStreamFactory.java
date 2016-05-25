@@ -17,6 +17,8 @@
 package org.md2k.dsu.domain;
 
 
+import java.time.LocalDateTime;
+
 import static org.md2k.dsu.domain.DataSourceFactory.newDataSource;
 import static org.md2k.dsu.domain.ParticipantFactory.newParticipant;
 
@@ -37,7 +39,8 @@ public class DataStreamFactory {
         dataStream.setId(1L);
         dataStream.setDataSource(dataSource);
         dataStream.setParticipant(participant);
-
+        dataStream.setCreationTimestamp(LocalDateTime.now());
+        dataStream.setModificationTimestamp(LocalDateTime.now());
         return dataStream;
     }
 }

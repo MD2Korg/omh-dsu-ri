@@ -19,6 +19,7 @@ package org.md2k.dsu.repository;
 import org.md2k.dsu.domain.DataSample;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 
 
 /**
@@ -27,6 +28,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  * @author Emerson Farrugia
  */
 public interface DataSampleRepository
-        extends JpaRepository<DataSample, Long>, JpaSpecificationExecutor<DataSample>, DataSampleRepositoryCustom {
+        extends JpaRepository<DataSample, Long>, JpaSpecificationExecutor<DataSample>, DataSampleRepositoryCustom, QueryDslPredicateExecutor<DataSample> {
 
 }

@@ -21,16 +21,17 @@ import org.openmhealth.dsu.domain.DataPointSearchCriteria;
 
 import java.util.List;
 
-
 /**
  * @author Emerson Farrugia
  */
 public interface DataPointSearchConfigurationRepositoryCustom {
 
     /**
-     * @param searchCriteria some data point search criteria from a request
-     * @return the data point search configurations which match the criteria
+     * Search.
+     *
+     * @param searchCriteria example query
+     * @return
      */
-    // TODO figure out sorting
     List<DataPointSearchConfiguration> findBySearchCriteria(DataPointSearchCriteria searchCriteria);
+
 }

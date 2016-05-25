@@ -16,37 +16,111 @@
 
 package org.openmhealth.dsu.service;
 
+import com.github.vineey.rql.filter.parser.DefaultFilterParser;
+import cz.jirutka.rsql.parser.RSQLParserException;
+import org.md2k.dsu.configuration.DataPointSearchConfiguration;
+import org.md2k.dsu.domain.DataPointSearchResult;
+import org.md2k.dsu.domain.DataSample;
+import org.md2k.dsu.mapper.DataPointMapper;
+import org.md2k.dsu.mapper.DataPointMapperResolver;
+import org.md2k.dsu.repository.DataPointSearchConfigurationRepository;
+import org.md2k.dsu.repository.DataSampleRepository;
 import org.openmhealth.dsu.domain.DataPointSearchCriteria;
-import org.openmhealth.dsu.repository.DataPointRepository;
-import org.openmhealth.schema.domain.omh.DataPoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
+import static com.github.vineey.rql.querydsl.filter.QueryDslFilterContext.withMapping;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static org.md2k.dsu.configuration.DatabaseQueryFilterAliasConfiguration.predicateCache;
+import static org.md2k.dsu.configuration.DatabaseQueryFilterAliasConfiguration.searchMappings;
 
 
 /**
  * @author Emerson Farrugia
  */
 @Service
-public class DataPointSearchServiceImpl implements DataPointSearchService {
+public class DataPointSearchServiceImpl implements DataPointSearchService, InitializingBean {
+
+    private static final Logger log = LoggerFactory.getLogger(DataPointSearchServiceImpl.class);
 
     @Autowired
-    private DataPointRepository repository;
+    private DataPointSearchConfigurationRepository configurationRepository;
 
+    @Autowired
+    private DataSampleRepository sampleRepository;
+
+    @Autowired
+    private DataPointMapperResolver<DataSample> mapperResolver;
+
+
+    // FIXME figure out what pagination strategy we'd like to use
     @Override
     @Transactional(readOnly = true)
-    public Iterable<DataPoint> findBySearchCriteria(DataPointSearchCriteria searchCriteria, @Nullable Integer offset,
-            @Nullable Integer limit) {
+    public DataPointSearchResult findBySearchCriteria(DataPointSearchCriteria searchCriteria, @Nullable Long offset,
+                                                      @Nullable Long limit) {
 
         checkNotNull(searchCriteria);
         checkArgument(offset == null || offset >= 0);
         checkArgument(limit == null || limit >= 0);
 
-        return repository.findBySearchCriteria(searchCriteria, offset, limit);
+        DataPointSearchResult searchResult = new DataPointSearchResult();
+
+        for (DataPointSearchConfiguration searchConfiguration : configurationRepository.findBySearchCriteria(searchCriteria)) {
+
+            // TODO add configuration ID to result
+
+            DataPointMapper<DataSample> mapper =
+                    mapperResolver.getMapper(searchConfiguration.getMapperSettings().getMapperIdentifier())
+                            .orElseThrow(RuntimeException::new); // TODO create an exception hierarchy
+
+            List<DataSample> dataSamples =
+                    sampleRepository.findBySearchConfigurationAndSearchCriteria(searchConfiguration, searchCriteria, offset, limit);
+
+            // TODO add data sample count to result
+
+            for (DataSample dataSample : dataSamples) {
+                searchResult.addDataPoints(mapper.asDataPoints(dataSample, searchConfiguration.getMapperSettings()));
+            }
+        }
+
+        return searchResult;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        // warm up cache (and trigger errors if there are bad queries in the DB
+
+        Pageable pageRequest = new PageRequest(0, 100);
+        Page<DataPointSearchConfiguration> page;
+        DefaultFilterParser filterParser = new DefaultFilterParser();
+
+        do {
+            page = configurationRepository.findAll(pageRequest);
+
+            for (DataPointSearchConfiguration dpsc : page) {
+                try {
+                    predicateCache.put(dpsc.getDatabaseQueryFilters(), filterParser.parse(dpsc.getDatabaseQueryFilters(), withMapping(searchMappings)));
+
+                } catch (RSQLParserException e) {
+                    log.error("Unable to parse db query filter in record #{}: Found: {}", dpsc.getId(), dpsc.getDatabaseQueryFilters(), e);
+                    throw e;
+                }
+
+            }
+
+            pageRequest = page.nextPageable();
+
+        } while (page.hasNext());
     }
 }

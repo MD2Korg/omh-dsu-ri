@@ -16,8 +16,13 @@
 
 package org.md2k.dsu.repository;
 
+import com.querydsl.mongodb.AbstractMongodbQuery;
 import org.md2k.dsu.configuration.DataPointSearchConfiguration;
+import org.md2k.dsu.configuration.QDataPointSearchConfiguration;
 import org.openmhealth.dsu.domain.DataPointSearchCriteria;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.repository.support.QuerydslRepositorySupport;
 
 import java.util.List;
 
@@ -27,15 +32,32 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * @author Emerson Farrugia
  */
-public class DataPointSearchConfigurationRepositoryImpl implements DataPointSearchConfigurationRepositoryCustom {
+public class DataPointSearchConfigurationRepositoryImpl extends QuerydslRepositorySupport implements DataPointSearchConfigurationRepositoryCustom {
+
+
+    /**
+     * Creates a new {@link QuerydslRepositorySupport} for the given {@link MongoOperations}.
+     *
+     * @param operations must not be {@literal null}.
+     */
+    @Autowired
+    public DataPointSearchConfigurationRepositoryImpl(MongoOperations operations) {
+        super(operations);
+
+    }
+
 
     @Override
     public List<DataPointSearchConfiguration> findBySearchCriteria(DataPointSearchCriteria searchCriteria) {
 
         checkNotNull(searchCriteria);
 
-        // FIXME implement me
-
-        return null;
+        QDataPointSearchConfiguration qDataPointSearchConfiguration = QDataPointSearchConfiguration.dataPointSearchConfiguration;
+        return ((AbstractMongodbQuery<DataPointSearchConfiguration, ?>) from(qDataPointSearchConfiguration)
+                .where(qDataPointSearchConfiguration.searchCriteria.schemaName.eq(searchCriteria.getSchemaName())
+                        .and(qDataPointSearchConfiguration.searchCriteria.schemaNamespace.eq(searchCriteria.getSchemaNamespace())))
+        ).fetch();
     }
+
+
 }
