@@ -16,10 +16,10 @@
 
 package org.openmhealth.dsu.controller;
 
+import org.md2k.dsu.domain.DataPointSearchResult;
 import org.openmhealth.dsu.domain.DataPointSearchCriteria;
 import org.openmhealth.dsu.domain.EndUserUserDetails;
 import org.openmhealth.dsu.service.DataPointSearchService;
-import org.openmhealth.schema.domain.omh.DataPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Nullable;
 import javax.validation.Validator;
 import java.time.OffsetDateTime;
 
@@ -59,6 +60,7 @@ public class DataPointSearchController {
     public static final String SCHEMA_NAME_PARAMETER = "schema_name";
     // TODO searching by schema version should support wildcards, sticking to exact match for now
     public static final String SCHEMA_VERSION_PARAMETER = "schema_version";
+    public static final String END_USER_ID_PARAMETER = "end_user_id";
 
     public static final String RESULT_OFFSET_PARAMETER = "skip";
     public static final String RESULT_LIMIT_PARAMETER = "limit";
@@ -85,27 +87,26 @@ public class DataPointSearchController {
      */
     // TODO confirm if HEAD handling needs anything additional
     // only allow clients with read scope to read data points
+    // TODO allow HTTP basic authentication for client credentials?
     @PreAuthorize("#oauth2.clientHasRole('" + CLIENT_ROLE + "') and #oauth2.hasScope('" + DATA_POINT_READ_SCOPE + "')")
     // TODO look into any meaningful @PostAuthorize filtering
     @RequestMapping(value = "/dataPoints", method = {HEAD, GET}, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Iterable<DataPoint>> findDataPoints(
+    public ResponseEntity<DataPointSearchResult> findDataPoints(
             @RequestParam(value = SCHEMA_NAMESPACE_PARAMETER) final String schemaNamespace,
             @RequestParam(value = SCHEMA_NAME_PARAMETER) final String schemaName,
             @RequestParam(value = SCHEMA_VERSION_PARAMETER, required = false) final String schemaVersion,
             @RequestParam(value = CREATED_ON_OR_AFTER_PARAMETER, required = false)
             final OffsetDateTime createdOnOrAfter,
             @RequestParam(value = CREATED_BEFORE_PARAMETER, required = false) final OffsetDateTime createdBefore,
+            @RequestParam(value = END_USER_ID_PARAMETER, required = false) final String specifiedEndUserId,
             @RequestParam(value = RESULT_OFFSET_PARAMETER, defaultValue = "0") final Integer offset,
             @RequestParam(value = RESULT_LIMIT_PARAMETER, defaultValue = DEFAULT_RESULT_LIMIT) final Integer limit,
             Authentication authentication) {
 
-        // determine the user associated with the access token to restrict the search accordingly
-        String endUserId = getEndUserId(authentication);
-
         DataPointSearchCriteria searchCriteria = new DataPointSearchCriteria();
 
-        searchCriteria.setUserId(endUserId);
+        searchCriteria.setUserId(getEndUserId(authentication, specifiedEndUserId));
         searchCriteria.setSchemaNamespace(schemaNamespace);
         searchCriteria.setSchemaName(schemaName);
         searchCriteria.setSchemaVersionString(schemaVersion);
@@ -118,7 +119,8 @@ public class DataPointSearchController {
             return badRequest().body(null);
         }
 
-        Iterable<DataPoint> dataPoints = dataPointSearchService.findBySearchCriteria(searchCriteria, offset, limit);
+        DataPointSearchResult searchResult =
+                dataPointSearchService.findBySearchCriteria(searchCriteria, offset, limit);
 
         HttpHeaders headers = new HttpHeaders();
 
@@ -126,10 +128,11 @@ public class DataPointSearchController {
         // headers.set("Next");
         // headers.set("Previous");
 
-        return new ResponseEntity<>(dataPoints, headers, OK);
+        return new ResponseEntity<>(searchResult, headers, OK);
     }
 
-    public String getEndUserId(Authentication authentication) {
+    // FIXME implement authentication, possibly including basic auth for client credentials
+    String getEndUserId(Authentication authentication, @Nullable String specifiedEndUserId) {
 
         return ((EndUserUserDetails) authentication.getPrincipal()).getUsername();
     }

@@ -20,6 +20,7 @@ import org.md2k.dsu.configuration.DataPointSearchConfiguration;
 import org.md2k.dsu.domain.DataSample;
 import org.openmhealth.dsu.domain.DataPointSearchCriteria;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -28,7 +29,7 @@ import java.util.List;
  */
 public class DataSampleRepositoryImpl implements DataSampleRepositoryCustom {
 
-    // TODO pagination?
+    // TODO add pagination criteria
     @Override
     public List<DataSample> findBySearchConfigurationAndSearchCriteria(DataPointSearchConfiguration searchConfiguration,
             DataPointSearchCriteria searchCriteria) {
@@ -39,6 +40,6 @@ public class DataSampleRepositoryImpl implements DataSampleRepositoryCustom {
         // add configuration filters
         // return results
 
-        return null;
+        return Collections.emptyList();
     }
 }
