@@ -17,8 +17,8 @@
 package org.md2k.dsu.repository;
 
 import org.junit.runner.RunWith;
+import org.md2k.dsu.configuration.RepositoryConfiguration;
 import org.openmhealth.dsu.configuration.IntegrationTestConfiguration;
-import org.openmhealth.dsu.configuration.RepositoryConfiguration;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
