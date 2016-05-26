@@ -29,8 +29,8 @@ public class MCerebrumApplicationFactory {
 
         application.setId(1L);
         application.setIdentifier("");
-        application.setCreationTimestamp(LocalDateTime.now());
-        application.setModificationTimestamp(LocalDateTime.now());
+        application.setCreationTimestamp(LocalDateTime.of(2016, 4, 14, 9, 45, 20, 0));
+        application.setModificationTimestamp(LocalDateTime.of(2016, 4, 14, 9, 45, 20, 0));
         application.setType("org.md2k.microsoftband");
         application.setMetadata("{\n" +
                 "    \"VERSION_NAME\": \"0.1.0\",\n" +

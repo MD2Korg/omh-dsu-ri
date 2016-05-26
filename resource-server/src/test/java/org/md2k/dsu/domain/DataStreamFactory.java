@@ -39,8 +39,8 @@ public class DataStreamFactory {
         dataStream.setId(1L);
         dataStream.setDataSource(dataSource);
         dataStream.setParticipant(participant);
-        dataStream.setCreationTimestamp(LocalDateTime.now());
-        dataStream.setModificationTimestamp(LocalDateTime.now());
+        dataStream.setCreationTimestamp(LocalDateTime.of(2016, 4, 14, 9, 45, 20, 0));
+        dataStream.setModificationTimestamp(LocalDateTime.of(2016, 4, 14, 9, 45, 20, 0));
         return dataStream;
     }
 }

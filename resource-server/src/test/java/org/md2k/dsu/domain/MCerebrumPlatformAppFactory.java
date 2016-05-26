@@ -32,8 +32,8 @@ public class MCerebrumPlatformAppFactory {
         platformApp.setIdentifier("");
         platformApp.setType("");
         platformApp.setMetadata("{}");
-        platformApp.setCreationTimestamp(LocalDateTime.now());
-        platformApp.setModificationTimestamp(LocalDateTime.now());
+        platformApp.setCreationTimestamp(LocalDateTime.of(2016, 4, 14, 9, 45, 20, 0));
+        platformApp.setModificationTimestamp(LocalDateTime.of(2016, 4, 14, 9, 45, 20, 0));
         return platformApp;
     }
 }

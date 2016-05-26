@@ -29,8 +29,8 @@ public class MCerebrumPlatformFactory {
 
         platform.setId(1L);
         platform.setIdentifier("RIGHT_WRIST");
-        platform.setCreationTimestamp(LocalDateTime.now());
-        platform.setModificationTimestamp(LocalDateTime.now());
+        platform.setCreationTimestamp(LocalDateTime.of(2016, 4, 14, 9, 45, 20, 0));
+        platform.setModificationTimestamp(LocalDateTime.of(2016, 4, 14, 9, 45, 20, 0));
         platform.setType("MICROSOFT_BAND");
         platform.setMetadata("{\n" +
                 "    \"NAME\": \"MicrosoftBand (Right Wrist)\",\n" +

@@ -40,8 +40,8 @@ public class DataSourceFactory {
         dataSource.setId(1L);
         dataSource.setIdentifier("");
         dataSource.setType("HEART_RATE");
-        dataSource.setCreationTimestamp(LocalDateTime.now());
-        dataSource.setModificationTimestamp(LocalDateTime.now());
+        dataSource.setCreationTimestamp(LocalDateTime.of(2016, 4, 14, 9, 45, 20, 0));
+        dataSource.setModificationTimestamp(LocalDateTime.of(2016, 4, 14, 9, 45, 20, 0));
         dataSource.setApplication(application);
         dataSource.setPlatformApp(platformApp);
         dataSource.setPlatform(platform);

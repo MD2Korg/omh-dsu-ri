@@ -31,8 +31,8 @@ public class ParticipantFactory {
 
         participant.setId(UUID.randomUUID());
         participant.setIdentifier("joe");
-        participant.setModificationTimestamp(LocalDateTime.now());
-        participant.setCreationTimestamp(LocalDateTime.now());
+        participant.setModificationTimestamp(LocalDateTime.of(2016, 4, 14, 9, 45, 20, 0));
+        participant.setCreationTimestamp(LocalDateTime.of(2016, 4, 14, 9, 45, 20, 0));
         return participant;
     }
 }
