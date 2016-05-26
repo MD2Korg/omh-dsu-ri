@@ -18,6 +18,8 @@ package org.md2k.dsu.repository;
 
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import org.md2k.dsu.configuration.DataPointSearchConfiguration;
 import org.md2k.dsu.domain.DataSample;
 import org.md2k.dsu.domain.QDataSample;
@@ -31,6 +33,7 @@ import java.util.Optional;
 
 import static com.github.vineey.rql.querydsl.filter.QueryDslFilterContext.withMapping;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.time.ZoneOffset.UTC;
 import static org.md2k.dsu.configuration.DatabaseQueryFilterAliasConfiguration.predicateCache;
 import static org.md2k.dsu.configuration.DatabaseQueryFilterAliasConfiguration.searchMappings;
 
@@ -82,13 +85,14 @@ public class DataSampleRepositoryImpl extends QueryDslRepositorySupport implemen
 
         return from(qDataSample)
                 .where(builder)
+                .orderBy(new OrderSpecifier(Order.DESC, QDataSample.dataSample.effectiveTimestamp))
                 .offset(offset)
                 .limit(limit)
                 .fetch();
     }
 
     private LocalDateTime atUtc(OffsetDateTime offsetDateTime) {
-        return offsetDateTime.toLocalDateTime(); // FIXME: Ask Emerson re offset
+        return offsetDateTime.atZoneSameInstant(UTC).toLocalDateTime();
     }
 
 }
