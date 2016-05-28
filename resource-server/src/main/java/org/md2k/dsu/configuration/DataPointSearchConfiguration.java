@@ -17,6 +17,7 @@
 package org.md2k.dsu.configuration;
 
 import org.openmhealth.dsu.domain.DataPointSearchCriteria;
+import org.openmhealth.dsu.validation.ValidDataPointDatabaseQueryCriteria;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -63,6 +64,7 @@ public class DataPointSearchConfiguration {
      * @return the filters that will be applied to database queries issued to service the request
      */
     @NotNull
+    @ValidDataPointDatabaseQueryCriteria
     public String getDatabaseQueryFilters() {
         return databaseQueryFilters;
     }

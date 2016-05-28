@@ -16,6 +16,7 @@
 
 package org.openmhealth.dsu.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Range;
 import org.openmhealth.dsu.validation.ValidDataPointSearchCriteria;
 import org.openmhealth.dsu.validation.ValidSchemaName;
@@ -154,6 +155,8 @@ public class DataPointSearchCriteria {
     /**
      * @return the creation timestamp range of the data points
      */
+    
+    @JsonIgnore
     public Range<OffsetDateTime> getCreationTimestampRange() {
         return asRange(createdOnOrAfter, createdBefore);
     }
@@ -161,6 +164,7 @@ public class DataPointSearchCriteria {
     /**
      * @return the effective timestamp range of the data points
      */
+    @JsonIgnore
     public Range<OffsetDateTime> getEffectiveTimestampRange() {
         return asRange(effectiveOnOrAfter, effectiveBefore);
     }

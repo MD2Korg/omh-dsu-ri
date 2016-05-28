@@ -107,18 +107,18 @@ public class DataPointSearchServiceImpl implements DataPointSearchService, Initi
 
         do {
             page = configurationRepository.findAll(pageRequest);
-
             for (DataPointSearchConfiguration dpsc : page) {
                 try {
-                    predicateCache.put(dpsc.getDatabaseQueryFilters(), filterParser.parse(dpsc.getDatabaseQueryFilters(), withMapping(searchMappings)));
+                    if (!dpsc.getDatabaseQueryFilters().trim().isEmpty()) {
+                        predicateCache.put(dpsc.getDatabaseQueryFilters(), filterParser.parse(dpsc.getDatabaseQueryFilters(), withMapping(searchMappings)));
+                    }
 
                 } catch (RSQLParserException e) {
                     log.error("Unable to parse db query filter in record #{}: Found: {}", dpsc.getId(), dpsc.getDatabaseQueryFilters(), e);
                     throw e;
                 }
 
-            }
-
+                }
             pageRequest = page.nextPageable();
 
         } while (page.hasNext());
