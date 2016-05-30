@@ -25,4 +25,6 @@ services:
 before_script:
   - psql -f resources/rdbms/postgresql/create-database.sql -U postgres
   - psql -f resources/rdbms/postgresql/oauth2-ddl.sql -U postgres
+  - psql -f resources/rdbms/postgresql/create-database-cortex.sql -U postgres
+  - psql -f resources/rdbms/postgresql/cortex-ddl.sql -U postgres
 
