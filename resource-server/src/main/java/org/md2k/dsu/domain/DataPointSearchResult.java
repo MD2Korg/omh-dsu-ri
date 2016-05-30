@@ -37,7 +37,6 @@ public class DataPointSearchResult {
     class SearchConfigurationResult {
 
         private String configurationId;
-        private boolean queriesExecuted;
         private int dataSamplesFound;
         private int dataPointsMapped;
 
@@ -93,6 +92,14 @@ public class DataPointSearchResult {
 
     public void setSearchStatistics(List<SearchConfigurationResult> searchStatistics) {
         this.searchStatistics = searchStatistics;
+    }
+
+    public void addSearchStatistics(String configurationId, int dataPointsMapped, int dataSamplesMapped) {
+        SearchConfigurationResult searchConfigurationResult = new SearchConfigurationResult();
+        searchConfigurationResult.setConfigurationId(configurationId);
+        searchConfigurationResult.setDataPointsMapped(dataPointsMapped);
+        searchConfigurationResult.setDataSamplesFound(dataSamplesMapped);
+        this.searchStatistics.add(searchConfigurationResult);
     }
 
     /**

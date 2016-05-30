@@ -26,6 +26,7 @@ import org.md2k.dsu.mapper.DataPointMapperResolver;
 import org.md2k.dsu.repository.DataPointSearchConfigurationRepository;
 import org.md2k.dsu.repository.DataSampleRepository;
 import org.openmhealth.dsu.domain.DataPointSearchCriteria;
+import org.openmhealth.schema.domain.omh.DataPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -78,7 +79,6 @@ public class DataPointSearchServiceImpl implements DataPointSearchService, Initi
 
         for (DataPointSearchConfiguration searchConfiguration : configurationRepository.findBySearchCriteria(searchCriteria)) {
 
-            // TODO add configuration ID to result
 
             DataPointMapper<DataSample> mapper =
                     mapperResolver.getMapper(searchConfiguration.getMapperSettings().getMapperIdentifier())
@@ -87,11 +87,14 @@ public class DataPointSearchServiceImpl implements DataPointSearchService, Initi
             List<DataSample> dataSamples =
                     sampleRepository.findBySearchConfigurationAndSearchCriteria(searchConfiguration, searchCriteria, offset, limit);
 
-            // TODO add data sample count to result
 
+            int dataSamplesSize = dataSamples.size();
             for (DataSample dataSample : dataSamples) {
-                searchResult.addDataPoints(mapper.asDataPoints(dataSample, searchConfiguration.getMapperSettings()));
+                List<DataPoint<?>> dataPoints = mapper.asDataPoints(dataSample, searchConfiguration.getMapperSettings());
+                searchResult.addDataPoints(dataPoints);
+                searchResult.addSearchStatistics(searchConfiguration.getId(), dataPoints.size(), dataSamplesSize);
             }
+
         }
 
         return searchResult;
