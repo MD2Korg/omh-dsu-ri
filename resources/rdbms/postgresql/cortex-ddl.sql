@@ -1,4 +1,4 @@
-\c cerebralcortex_production
+\c cerebral_cortex
 
 --
 -- PostgreSQL database dump

@@ -175,7 +175,7 @@ public class DataPointSearchControllerIntegrationTests {
     @Test
     public void shouldGetAllEntriesWithNoData() throws Exception {
 
-        mockMvc.perform(get(fromMethodCall(on(DataPointSearchConfigurationController.class).listAllConfigurations(null, null)).build().toUri())
+        mockMvc.perform(get(fromMethodCall(on(DataPointSearchConfigurationController.class).listAllConfigurations(0, 20)).build().toUri())
                 .accept(APPLICATION_JSON)
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isNoContent());
@@ -188,7 +188,7 @@ public class DataPointSearchControllerIntegrationTests {
     public void shouldGetAllEntriesWithSomeData() throws Exception {
 
         when(repository.findAll(any(Predicate.class), any(Pageable.class))).thenReturn(new PageImpl<>(Lists.newArrayList(new DataPointSearchConfiguration())));
-        mockMvc.perform(get(fromMethodCall(on(DataPointSearchConfigurationController.class).listAllConfigurations(null, new PageRequest(0, 10))).build().toUri())
+        mockMvc.perform(get(fromMethodCall(on(DataPointSearchConfigurationController.class).listAllConfigurations(0, 10)).build().toUri())
                 .accept(APPLICATION_JSON)
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk());

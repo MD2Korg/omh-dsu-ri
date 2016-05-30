@@ -1,1 +1,1 @@
-CREATE DATABASE cerebralcortex_production;
+CREATE DATABASE cerebral_cortex;

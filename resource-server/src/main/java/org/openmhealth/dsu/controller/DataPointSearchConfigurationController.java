@@ -1,22 +1,19 @@
 package org.openmhealth.dsu.controller;
 
-import com.querydsl.core.types.Predicate;
 import org.md2k.dsu.configuration.DataPointSearchConfiguration;
 import org.md2k.dsu.repository.DataPointSearchConfigurationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.querydsl.binding.QuerydslPredicate;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static org.openmhealth.dsu.controller.DataPointSearchController.*;
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.fromMethodCall;
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.on;
 
@@ -30,25 +27,24 @@ public class DataPointSearchConfigurationController {
     @Autowired
     DataPointSearchConfigurationRepository dataPointSearchConfigurationRepository;
 
-    private static final String TOP_LEVEL = "/datapointsearchconfig";
+    private static final String TOP_LEVEL = "/dataPointSearchConfigurations";
 
 
     /**
-     * Example of predicate search:
-     * http://localhost:8083/v1.0.M1/datapointsearchconfig?searchCriteria.schemaNamespace=omh
-     *
-     * @param predicate
-     * @param pageable
      * @return
      */
     @RequestMapping(value = TOP_LEVEL, method = RequestMethod.GET)
-    public ResponseEntity<?> listAllConfigurations(@QuerydslPredicate(root = DataPointSearchConfiguration.class) Predicate predicate, Pageable pageable) {
-        Page<DataPointSearchConfiguration> configurations = dataPointSearchConfigurationRepository.findAll(predicate, pageable);
+    public ResponseEntity<?> listAllConfigurations(@RequestParam(value = RESULT_OFFSET_PARAMETER, defaultValue = "0") final int offset,
+                                                   @RequestParam(value = RESULT_LIMIT_PARAMETER, defaultValue = DEFAULT_RESULT_LIMIT) final int limit
+    ) {
+
+
+        Page<DataPointSearchConfiguration> configurations = dataPointSearchConfigurationRepository.findAll(new PageRequestToOffset(offset, limit));
 
         if (configurations == null || configurations.getTotalElements() == 0) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(configurations);
+        return ResponseEntity.ok(configurations.getContent());
     }
 
 
@@ -110,4 +106,54 @@ public class DataPointSearchConfigurationController {
     }
 
 
+    class PageRequestToOffset implements Pageable {
+
+        private final int offset;
+        private final int limit;
+
+        public PageRequestToOffset(int offset, int limit) {
+            this.offset = offset;
+            this.limit = limit;
+        }
+
+        @Override
+        public int getPageNumber() {
+            return 0;
+        }
+
+        @Override
+        public int getPageSize() {
+            return limit;
+        }
+
+        @Override
+        public int getOffset() {
+            return offset;
+        }
+
+        @Override
+        public Sort getSort() {
+            return null;
+        }
+
+        @Override
+        public Pageable next() {
+            return null;
+        }
+
+        @Override
+        public Pageable previousOrFirst() {
+            return this;
+        }
+
+        @Override
+        public Pageable first() {
+            return this;
+        }
+
+        @Override
+        public boolean hasPrevious() {
+            return false;
+        }
+    }
 }
