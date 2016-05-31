@@ -89,11 +89,13 @@ public class DataPointSearchServiceImpl implements DataPointSearchService, Initi
 
 
             int dataSamplesSize = dataSamples.size();
+            int dataPointsSize = 0;
             for (DataSample dataSample : dataSamples) {
                 List<DataPoint<?>> dataPoints = mapper.asDataPoints(dataSample, searchConfiguration.getMapperSettings());
+                dataPointsSize += dataPoints.size();
                 searchResult.addDataPoints(dataPoints);
-                searchResult.addSearchStatistics(searchConfiguration.getId(), dataPoints.size(), dataSamplesSize);
             }
+            searchResult.addSearchStatistics(searchConfiguration.getId(), dataPointsSize, dataSamplesSize);
 
         }
 
