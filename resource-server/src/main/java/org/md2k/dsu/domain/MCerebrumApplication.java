@@ -16,6 +16,7 @@
 
 package org.md2k.dsu.domain;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
@@ -42,7 +43,7 @@ public class MCerebrumApplication implements Serializable {
     private Long id;
     private String identifier;
     private String type;
-    private String metadata;
+    private JsonNode metadata;
     private LocalDateTime creationTimestamp;
     private LocalDateTime modificationTimestamp;
 
@@ -87,11 +88,11 @@ public class MCerebrumApplication implements Serializable {
      * @return metadata about this application as a JSON document
      */
     @Type(type = "StringJsonObject")
-    public String getMetadata() {
+    public JsonNode getMetadata() {
         return metadata;
     }
 
-    public void setMetadata(String metadata) {
+    public void setMetadata(JsonNode metadata) {
         this.metadata = metadata;
     }
 

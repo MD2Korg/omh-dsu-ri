@@ -37,7 +37,7 @@ public class JsonNodeAttributeConverter implements AttributeConverter<JsonNode, 
     @Override
     public String convertToDatabaseColumn(JsonNode attribute) {
 
-        return attribute == null ? null : attribute.toString();
+        return attribute == null ? null : attribute.asText();
     }
 
     @Override

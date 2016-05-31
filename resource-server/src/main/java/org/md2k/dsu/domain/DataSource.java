@@ -16,6 +16,7 @@
 
 package org.md2k.dsu.domain;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
@@ -42,8 +43,8 @@ public class DataSource implements Serializable {
     private Long id;
     private String identifier;
     private String type;
-    private String dataDescriptor;
-    private String metadata;
+    private JsonNode dataDescriptor;
+    private JsonNode metadata;
     private MCerebrumApplication application;
     private MCerebrumPlatform platform;
     private MCerebrumPlatformApp platformApp;
@@ -96,11 +97,11 @@ public class DataSource implements Serializable {
     // TODO consider making this, or a sibling method, return a JsonNode
     @Column(name = "datadescriptor")
     @Type(type = "StringJsonObject")
-    public String getDataDescriptor() {
+    public JsonNode getDataDescriptor() {
         return dataDescriptor;
     }
 
-    public void setDataDescriptor(String dataDescriptor) {
+    public void setDataDescriptor(JsonNode dataDescriptor) {
         this.dataDescriptor = dataDescriptor;
     }
 
@@ -108,11 +109,11 @@ public class DataSource implements Serializable {
      * @return metadata about this data source as a JSON document
      */
     @Type(type = "StringJsonObject")
-    public String getMetadata() {
+    public JsonNode getMetadata() {
         return metadata;
     }
 
-    public void setMetadata(String metadata) {
+    public void setMetadata(JsonNode metadata) {
         this.metadata = metadata;
     }
 

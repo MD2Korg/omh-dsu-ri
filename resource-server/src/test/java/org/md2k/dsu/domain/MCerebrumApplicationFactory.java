@@ -16,12 +16,18 @@
 
 package org.md2k.dsu.domain;
 
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 /**
  * @author Emerson Farrugia
  */
 public class MCerebrumApplicationFactory {
+
+    static ObjectMapper objectMapper = new ObjectMapper();
 
     public static MCerebrumApplication newApplication() {
 
@@ -32,10 +38,14 @@ public class MCerebrumApplicationFactory {
         application.setCreationTimestamp(LocalDateTime.of(2016, 4, 14, 9, 45, 20, 0));
         application.setModificationTimestamp(LocalDateTime.of(2016, 4, 14, 9, 45, 20, 0));
         application.setType("org.md2k.microsoftband");
-        application.setMetadata("{\n" +
-                "    \"VERSION_NAME\": \"0.1.0\",\n" +
-                "    \"VERSION_NUMBER\": \"1\"\n" +
-                "}");
+        try {
+            application.setMetadata(objectMapper.readTree("{\n" +
+                    "    \"VERSION_NAME\": \"0.1.0\",\n" +
+                    "    \"VERSION_NUMBER\": \"1\"\n" +
+                    "}"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return application;
     }

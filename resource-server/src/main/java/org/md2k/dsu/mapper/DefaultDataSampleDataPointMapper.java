@@ -41,7 +41,7 @@ import static java.util.Collections.singletonList;
 @Component
 public class DefaultDataSampleDataPointMapper implements DataPointMapper<DataSample> {
 
-    public static final String MAPPER_ID = "defaultDataSampleMapper";
+    public static final String MAPPER_ID = "default";
 
     @Override
     public String getIdentifier() {
@@ -84,7 +84,7 @@ public class DefaultDataSampleDataPointMapper implements DataPointMapper<DataSam
     }
 
     /**
-     * @param sample a sample
+     * @param sample       a sample
      * @param bodySchemaId the body schema to map to
      * @return a new data point header corresponding to the data sample
      */
@@ -115,7 +115,7 @@ public class DefaultDataSampleDataPointMapper implements DataPointMapper<DataSam
     }
 
     /**
-     * @param sample a sample
+     * @param sample          a sample
      * @param propertyMapping a property mapping
      * @return the value obtained by applying the property mapping to the sample
      */

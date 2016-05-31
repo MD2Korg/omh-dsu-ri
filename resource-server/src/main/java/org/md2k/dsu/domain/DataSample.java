@@ -19,6 +19,9 @@ package org.md2k.dsu.domain;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.querydsl.core.annotations.QueryInit;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
+import org.md2k.dsu.configuration.StringJsonUserType;
 import org.md2k.dsu.repository.LocalDateTimeAttributeConverter;
 
 import javax.persistence.*;
@@ -34,6 +37,7 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Table(name = "datapoints")
+@TypeDefs({@TypeDef(name = "StringJsonObject", typeClass = StringJsonUserType.class)})
 public class DataSample implements DataPoint, Serializable {
 
     private static final long serialVersionUID = -249433556588372891L;

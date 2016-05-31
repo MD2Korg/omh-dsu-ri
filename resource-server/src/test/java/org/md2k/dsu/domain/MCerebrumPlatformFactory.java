@@ -16,7 +16,10 @@
 
 package org.md2k.dsu.domain;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+
+import static org.md2k.dsu.domain.MCerebrumApplicationFactory.objectMapper;
 
 /**
  * @author Emerson Farrugia
@@ -32,12 +35,16 @@ public class MCerebrumPlatformFactory {
         platform.setCreationTimestamp(LocalDateTime.of(2016, 4, 14, 9, 45, 20, 0));
         platform.setModificationTimestamp(LocalDateTime.of(2016, 4, 14, 9, 45, 20, 0));
         platform.setType("MICROSOFT_BAND");
-        platform.setMetadata("{\n" +
-                "    \"NAME\": \"MicrosoftBand (Right Wrist)\",\n" +
-                "    \"DEVICE_ID\": \"58:82:A8:CD:65:75\",\n" +
-                "    \"VERSION_FIRMWARE\": \"2.0.3923.0\",\n" +
-                "    \"VERSION_HARDWARE\": \"26\"\n" +
-                "}");
+        try {
+            platform.setMetadata(objectMapper.readTree("{\n" +
+                    "    \"NAME\": \"MicrosoftBand (Right Wrist)\",\n" +
+                    "    \"DEVICE_ID\": \"58:82:A8:CD:65:75\",\n" +
+                    "    \"VERSION_FIRMWARE\": \"2.0.3923.0\",\n" +
+                    "    \"VERSION_HARDWARE\": \"26\"\n" +
+                    "}"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return platform;
     }

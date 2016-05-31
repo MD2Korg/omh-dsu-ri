@@ -79,7 +79,7 @@ public class DataSampleRepositoryImpl extends QueryDslRepositorySupport implemen
 
         String dbFilter = searchConfiguration.getDatabaseQueryFilters();
 
-        if (dbFilter != null) {
+        if (dbFilter != null && !"".equals(dbFilter.trim())) {
             builder = builder.and(predicateCache.computeIfAbsent(dbFilter, s -> filterParser.parse(s, withMapping(searchMappings))));
         }
 

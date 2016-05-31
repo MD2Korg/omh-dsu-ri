@@ -1,20 +1,25 @@
 package org.md2k.dsu.configuration;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.usertype.UserType;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
+import static java.lang.String.format;
+
 /**
  * @author timfulmer
  */
 public class StringJsonUserType implements UserType {
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     /**
      * Return the SQL type codes for the columns mapped by this type. The
@@ -82,7 +87,15 @@ public class StringJsonUserType implements UserType {
         if (rs.getString(names[0]) == null) {
             return null;
         }
-        return rs.getString(names[0]);
+        String dbData = null;
+        try {
+            dbData = rs.getString(names[0]);
+            return dbData == null ? null : objectMapper.readTree(dbData);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(format("The value '%s' isn't valid JSON data.", dbData), e);
+        }
+
+
     }
 
     /**

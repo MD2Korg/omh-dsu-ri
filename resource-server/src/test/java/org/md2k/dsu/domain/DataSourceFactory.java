@@ -16,6 +16,9 @@
 
 package org.md2k.dsu.domain;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 import static org.md2k.dsu.domain.MCerebrumApplicationFactory.newApplication;
@@ -27,6 +30,8 @@ import static org.md2k.dsu.domain.MCerebrumPlatformFactory.newPlatform;
  * @author Emerson Farrugia
  */
 public class DataSourceFactory {
+
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     public static DataSource newDataSource() {
         return newDataSource(newApplication(), newPlatform(), newPlatformApp());
@@ -45,34 +50,38 @@ public class DataSourceFactory {
         dataSource.setApplication(application);
         dataSource.setPlatformApp(platformApp);
         dataSource.setPlatform(platform);
-        dataSource.setDataDescriptor("[\n" +
-                "    {\n" +
-                "        \"NAME\": \"Heart Rate\",\n" +
-                "        \"UNIT\": \"beats/minute\",\n" +
-                "        \"DATA_TYPE\": \"double\",\n" +
-                "        \"FREQUENCY\": \"1 Hz\",\n" +
-                "        \"MAX_VALUE\": \"200\",\n" +
-                "        \"MIN_VALUE\": \"0\",\n" +
-                "        \"DESCRIPTION\": \"Current heart rate as read by the Band in beats/min\"\n" +
-                "    },\n" +
-                "    {\n" +
-                "        \"NAME\": \"Quality\",\n" +
-                "        \"UNIT\": \"enum [0: locked, 1: acquiring]\",\n" +
-                "        \"DATA_TYPE\": \"double\",\n" +
-                "        \"FREQUENCY\": \"1 Hz\",\n" +
-                "        \"MAX_VALUE\": \"1\",\n" +
-                "        \"MIN_VALUE\": \"0\",\n" +
-                "        \"DESCRIPTION\": \"Quality of the current heart rate reading\"\n" +
-                "    }\n" +
-                "]");
+        try {
+            dataSource.setDataDescriptor(objectMapper.readTree("[\n" +
+                    "    {\n" +
+                    "        \"NAME\": \"Heart Rate\",\n" +
+                    "        \"UNIT\": \"beats/minute\",\n" +
+                    "        \"DATA_TYPE\": \"double\",\n" +
+                    "        \"FREQUENCY\": \"1 Hz\",\n" +
+                    "        \"MAX_VALUE\": \"200\",\n" +
+                    "        \"MIN_VALUE\": \"0\",\n" +
+                    "        \"DESCRIPTION\": \"Current heart rate as read by the Band in beats/min\"\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "        \"NAME\": \"Quality\",\n" +
+                    "        \"UNIT\": \"enum [0: locked, 1: acquiring]\",\n" +
+                    "        \"DATA_TYPE\": \"double\",\n" +
+                    "        \"FREQUENCY\": \"1 Hz\",\n" +
+                    "        \"MAX_VALUE\": \"1\",\n" +
+                    "        \"MIN_VALUE\": \"0\",\n" +
+                    "        \"DESCRIPTION\": \"Quality of the current heart rate reading\"\n" +
+                    "    }\n" +
+                    "]"));
 
-        dataSource.setMetadata("{\n" +
+            dataSource.setMetadata(objectMapper.readTree("{\n" +
                 "    \"NAME\": \"Heart Rate\",\n" +
                 "    \"UNIT\": \"beats/minute\",\n" +
                 "    \"DATA_TYPE\": \"org.md2k.datakitapi.datatype.DataTypeIntArray\",\n" +
                 "    \"FREQUENCY\": \"1 Hz\",\n" +
                 "    \"DESCRIPTION\": \"Provides the number of beats per minute; also indicates if the heart rate sensor is fully locked on to the wearer?s heart rate.\"\n" +
-                "}");
+                    "}"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return dataSource;
     }
