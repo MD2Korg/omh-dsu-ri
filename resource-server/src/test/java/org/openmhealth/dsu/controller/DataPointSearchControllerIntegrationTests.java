@@ -18,7 +18,6 @@ package org.openmhealth.dsu.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
-import com.querydsl.core.types.Predicate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -181,20 +180,20 @@ public class DataPointSearchControllerIntegrationTests {
                 .andExpect(status().isNoContent());
 
 
-        verify(repository, times(1)).findAll(any(Predicate.class), any(PageRequest.class));
+        verify(repository, times(1)).findAll(any(PageRequest.class));
     }
 
     @Test
     public void shouldGetAllEntriesWithSomeData() throws Exception {
 
-        when(repository.findAll(any(Predicate.class), any(Pageable.class))).thenReturn(new PageImpl<>(Lists.newArrayList(new DataPointSearchConfiguration())));
+        when(repository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(Lists.newArrayList(new DataPointSearchConfiguration())));
         mockMvc.perform(get(fromMethodCall(on(DataPointSearchConfigurationController.class).listAllConfigurations(0, 10)).build().toUri())
                 .accept(APPLICATION_JSON)
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk());
 
 
-        verify(repository, times(1)).findAll(any(Predicate.class), any(PageRequest.class));
+        verify(repository, times(1)).findAll(any(PageRequest.class));
     }
 
 }
