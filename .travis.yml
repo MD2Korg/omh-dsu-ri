@@ -9,9 +9,14 @@ notifications:
 
 sudo: false
 
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
   directories:
-    - $HOME/.gradle/wrapper/dists/gradle-2.11-bin
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+script: ./gradlew test --debug
 
 addons:
   hosts:
