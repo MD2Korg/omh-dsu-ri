@@ -1,16 +1,5 @@
 \c cerebral_cortex
 
---
--- PostgreSQL database dump
---
-
--- Dumped from database version 9.3.3
--- Dumped by pg_dump version 9.5.1
-
--- Started on 2016-05-30 16:02:25 CEST
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -18,7 +7,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 1 (class 3079 OID 12018)
+-- TOC entry 1 (class 3079 OID 12361)
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
 --
 
@@ -26,7 +15,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2312 (class 0 OID 0)
+-- TOC entry 2265 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
 --
@@ -35,7 +24,7 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
 --
--- TOC entry 2 (class 3079 OID 575802)
+-- TOC entry 2 (class 3079 OID 16408)
 -- Name: uuid-ossp; Type: EXTENSION; Schema: -; Owner:
 --
 
@@ -43,7 +32,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 
 
 --
--- TOC entry 2313 (class 0 OID 0)
+-- TOC entry 2266 (class 0 OID 0)
 -- Dependencies: 2
 -- Name: EXTENSION "uuid-ossp"; Type: COMMENT; Schema: -; Owner:
 --
@@ -58,8 +47,8 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- TOC entry 172 (class 1259 OID 575813)
--- Name: active_admin_comments; Type: TABLE; Schema: public; Owner: postgres
+-- TOC entry 182 (class 1259 OID 16419)
+-- Name: active_admin_comments; Type: TABLE; Schema: public; Owner: cerebralcortex
 --
 
 CREATE TABLE active_admin_comments (
@@ -75,11 +64,11 @@ CREATE TABLE active_admin_comments (
 );
 
 
-ALTER TABLE active_admin_comments OWNER TO postgres;
+ALTER TABLE active_admin_comments OWNER TO cerebralcortex;
 
 --
--- TOC entry 173 (class 1259 OID 575819)
--- Name: active_admin_comments_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 183 (class 1259 OID 16425)
+-- Name: active_admin_comments_id_seq; Type: SEQUENCE; Schema: public; Owner: cerebralcortex
 --
 
 CREATE SEQUENCE active_admin_comments_id_seq
@@ -90,20 +79,20 @@ CREATE SEQUENCE active_admin_comments_id_seq
     CACHE 1;
 
 
-ALTER TABLE active_admin_comments_id_seq OWNER TO postgres;
+ALTER TABLE active_admin_comments_id_seq OWNER TO cerebralcortex;
 
 --
--- TOC entry 2314 (class 0 OID 0)
--- Dependencies: 173
--- Name: active_admin_comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- TOC entry 2267 (class 0 OID 0)
+-- Dependencies: 183
+-- Name: active_admin_comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cerebralcortex
 --
 
 ALTER SEQUENCE active_admin_comments_id_seq OWNED BY active_admin_comments.id;
 
 
 --
--- TOC entry 174 (class 1259 OID 575821)
--- Name: admin_users; Type: TABLE; Schema: public; Owner: postgres
+-- TOC entry 184 (class 1259 OID 16427)
+-- Name: admin_users; Type: TABLE; Schema: public; Owner: cerebralcortex
 --
 
 CREATE TABLE admin_users (
@@ -123,11 +112,11 @@ CREATE TABLE admin_users (
 );
 
 
-ALTER TABLE admin_users OWNER TO postgres;
+ALTER TABLE admin_users OWNER TO cerebralcortex;
 
 --
--- TOC entry 175 (class 1259 OID 575830)
--- Name: admin_users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 185 (class 1259 OID 16436)
+-- Name: admin_users_id_seq; Type: SEQUENCE; Schema: public; Owner: cerebralcortex
 --
 
 CREATE SEQUENCE admin_users_id_seq
@@ -138,20 +127,38 @@ CREATE SEQUENCE admin_users_id_seq
     CACHE 1;
 
 
-ALTER TABLE admin_users_id_seq OWNER TO postgres;
+ALTER TABLE admin_users_id_seq OWNER TO cerebralcortex;
 
 --
--- TOC entry 2315 (class 0 OID 0)
--- Dependencies: 175
--- Name: admin_users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- TOC entry 2268 (class 0 OID 0)
+-- Dependencies: 185
+-- Name: admin_users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cerebralcortex
 --
 
 ALTER SEQUENCE admin_users_id_seq OWNED BY admin_users.id;
 
 
 --
--- TOC entry 176 (class 1259 OID 575832)
--- Name: datapoints_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 186 (class 1259 OID 16438)
+-- Name: datapoints; Type: TABLE; Schema: public; Owner: cerebralcortex
+--
+
+CREATE TABLE datapoints (
+    id integer NOT NULL,
+    "timestamp" timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    datastream_id integer,
+    sample jsonb,
+    "offset" integer
+);
+
+
+ALTER TABLE datapoints OWNER TO cerebralcortex;
+
+--
+-- TOC entry 187 (class 1259 OID 16444)
+-- Name: datapoints_id_seq; Type: SEQUENCE; Schema: public; Owner: cerebralcortex
 --
 
 CREATE SEQUENCE datapoints_id_seq
@@ -162,11 +169,41 @@ CREATE SEQUENCE datapoints_id_seq
     CACHE 1;
 
 
-ALTER TABLE datapoints_id_seq OWNER TO postgres;
+ALTER TABLE datapoints_id_seq OWNER TO cerebralcortex;
 
 --
--- TOC entry 177 (class 1259 OID 575834)
--- Name: datasources_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 2269 (class 0 OID 0)
+-- Dependencies: 187
+-- Name: datapoints_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cerebralcortex
+--
+
+ALTER SEQUENCE datapoints_id_seq OWNED BY datapoints.id;
+
+
+--
+-- TOC entry 188 (class 1259 OID 16446)
+-- Name: datasources; Type: TABLE; Schema: public; Owner: cerebralcortex
+--
+
+CREATE TABLE datasources (
+    id integer NOT NULL,
+    identifier character varying,
+    datasourcetype character varying,
+    datadescriptor jsonb,
+    metadata jsonb,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    m_cerebrum_application_id integer,
+    m_cerebrum_platform_id integer,
+    m_cerebrum_platform_app_id integer
+);
+
+
+ALTER TABLE datasources OWNER TO cerebralcortex;
+
+--
+-- TOC entry 189 (class 1259 OID 16452)
+-- Name: datasources_id_seq; Type: SEQUENCE; Schema: public; Owner: cerebralcortex
 --
 
 CREATE SEQUENCE datasources_id_seq
@@ -177,11 +214,20 @@ CREATE SEQUENCE datasources_id_seq
     CACHE 1;
 
 
-ALTER TABLE datasources_id_seq OWNER TO postgres;
+ALTER TABLE datasources_id_seq OWNER TO cerebralcortex;
 
 --
--- TOC entry 178 (class 1259 OID 575836)
--- Name: datastreams; Type: TABLE; Schema: public; Owner: postgres
+-- TOC entry 2270 (class 0 OID 0)
+-- Dependencies: 189
+-- Name: datasources_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cerebralcortex
+--
+
+ALTER SEQUENCE datasources_id_seq OWNED BY datasources.id;
+
+
+--
+-- TOC entry 190 (class 1259 OID 16454)
+-- Name: datastreams; Type: TABLE; Schema: public; Owner: cerebralcortex
 --
 
 CREATE TABLE datastreams (
@@ -193,11 +239,11 @@ CREATE TABLE datastreams (
 );
 
 
-ALTER TABLE datastreams OWNER TO postgres;
+ALTER TABLE datastreams OWNER TO cerebralcortex;
 
 --
--- TOC entry 179 (class 1259 OID 575839)
--- Name: datastreams_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 191 (class 1259 OID 16457)
+-- Name: datastreams_id_seq; Type: SEQUENCE; Schema: public; Owner: cerebralcortex
 --
 
 CREATE SEQUENCE datastreams_id_seq
@@ -208,20 +254,37 @@ CREATE SEQUENCE datastreams_id_seq
     CACHE 1;
 
 
-ALTER TABLE datastreams_id_seq OWNER TO postgres;
+ALTER TABLE datastreams_id_seq OWNER TO cerebralcortex;
 
 --
--- TOC entry 2316 (class 0 OID 0)
--- Dependencies: 179
--- Name: datastreams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- TOC entry 2271 (class 0 OID 0)
+-- Dependencies: 191
+-- Name: datastreams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cerebralcortex
 --
 
 ALTER SEQUENCE datastreams_id_seq OWNED BY datastreams.id;
 
 
 --
--- TOC entry 180 (class 1259 OID 575841)
--- Name: m_cerebrum_applications_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 192 (class 1259 OID 16459)
+-- Name: m_cerebrum_applications; Type: TABLE; Schema: public; Owner: cerebralcortex
+--
+
+CREATE TABLE m_cerebrum_applications (
+    id integer NOT NULL,
+    applicationtype character varying,
+    identifier character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    metadata jsonb
+);
+
+
+ALTER TABLE m_cerebrum_applications OWNER TO cerebralcortex;
+
+--
+-- TOC entry 193 (class 1259 OID 16465)
+-- Name: m_cerebrum_applications_id_seq; Type: SEQUENCE; Schema: public; Owner: cerebralcortex
 --
 
 CREATE SEQUENCE m_cerebrum_applications_id_seq
@@ -232,11 +295,37 @@ CREATE SEQUENCE m_cerebrum_applications_id_seq
     CACHE 1;
 
 
-ALTER TABLE m_cerebrum_applications_id_seq OWNER TO postgres;
+ALTER TABLE m_cerebrum_applications_id_seq OWNER TO cerebralcortex;
 
 --
--- TOC entry 181 (class 1259 OID 575843)
--- Name: m_cerebrum_platform_apps_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 2272 (class 0 OID 0)
+-- Dependencies: 193
+-- Name: m_cerebrum_applications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cerebralcortex
+--
+
+ALTER SEQUENCE m_cerebrum_applications_id_seq OWNED BY m_cerebrum_applications.id;
+
+
+--
+-- TOC entry 194 (class 1259 OID 16467)
+-- Name: m_cerebrum_platform_apps; Type: TABLE; Schema: public; Owner: cerebralcortex
+--
+
+CREATE TABLE m_cerebrum_platform_apps (
+    id integer NOT NULL,
+    platformapptype character varying,
+    identifier character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    metadata jsonb
+);
+
+
+ALTER TABLE m_cerebrum_platform_apps OWNER TO cerebralcortex;
+
+--
+-- TOC entry 195 (class 1259 OID 16473)
+-- Name: m_cerebrum_platform_apps_id_seq; Type: SEQUENCE; Schema: public; Owner: cerebralcortex
 --
 
 CREATE SEQUENCE m_cerebrum_platform_apps_id_seq
@@ -247,11 +336,37 @@ CREATE SEQUENCE m_cerebrum_platform_apps_id_seq
     CACHE 1;
 
 
-ALTER TABLE m_cerebrum_platform_apps_id_seq OWNER TO postgres;
+ALTER TABLE m_cerebrum_platform_apps_id_seq OWNER TO cerebralcortex;
 
 --
--- TOC entry 182 (class 1259 OID 575845)
--- Name: m_cerebrum_platforms_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 2273 (class 0 OID 0)
+-- Dependencies: 195
+-- Name: m_cerebrum_platform_apps_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cerebralcortex
+--
+
+ALTER SEQUENCE m_cerebrum_platform_apps_id_seq OWNED BY m_cerebrum_platform_apps.id;
+
+
+--
+-- TOC entry 196 (class 1259 OID 16475)
+-- Name: m_cerebrum_platforms; Type: TABLE; Schema: public; Owner: cerebralcortex
+--
+
+CREATE TABLE m_cerebrum_platforms (
+    id integer NOT NULL,
+    platformtype character varying,
+    identifier character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    metadata jsonb
+);
+
+
+ALTER TABLE m_cerebrum_platforms OWNER TO cerebralcortex;
+
+--
+-- TOC entry 197 (class 1259 OID 16481)
+-- Name: m_cerebrum_platforms_id_seq; Type: SEQUENCE; Schema: public; Owner: cerebralcortex
 --
 
 CREATE SEQUENCE m_cerebrum_platforms_id_seq
@@ -262,10 +377,19 @@ CREATE SEQUENCE m_cerebrum_platforms_id_seq
     CACHE 1;
 
 
-ALTER TABLE m_cerebrum_platforms_id_seq OWNER TO postgres;
+ALTER TABLE m_cerebrum_platforms_id_seq OWNER TO cerebralcortex;
 
 --
--- TOC entry 183 (class 1259 OID 575847)
+-- TOC entry 2274 (class 0 OID 0)
+-- Dependencies: 197
+-- Name: m_cerebrum_platforms_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cerebralcortex
+--
+
+ALTER SEQUENCE m_cerebrum_platforms_id_seq OWNED BY m_cerebrum_platforms.id;
+
+
+--
+-- TOC entry 198 (class 1259 OID 16483)
 -- Name: oauth_access_token; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -283,7 +407,7 @@ CREATE TABLE oauth_access_token (
 ALTER TABLE oauth_access_token OWNER TO postgres;
 
 --
--- TOC entry 184 (class 1259 OID 575853)
+-- TOC entry 199 (class 1259 OID 16489)
 -- Name: oauth_client_details; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -305,7 +429,7 @@ CREATE TABLE oauth_client_details (
 ALTER TABLE oauth_client_details OWNER TO postgres;
 
 --
--- TOC entry 185 (class 1259 OID 575859)
+-- TOC entry 200 (class 1259 OID 16495)
 -- Name: oauth_refresh_token; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -319,8 +443,8 @@ CREATE TABLE oauth_refresh_token (
 ALTER TABLE oauth_refresh_token OWNER TO postgres;
 
 --
--- TOC entry 186 (class 1259 OID 575865)
--- Name: participant_studies; Type: TABLE; Schema: public; Owner: postgres
+-- TOC entry 201 (class 1259 OID 16501)
+-- Name: participant_studies; Type: TABLE; Schema: public; Owner: cerebralcortex
 --
 
 CREATE TABLE participant_studies (
@@ -332,11 +456,11 @@ CREATE TABLE participant_studies (
 );
 
 
-ALTER TABLE participant_studies OWNER TO postgres;
+ALTER TABLE participant_studies OWNER TO cerebralcortex;
 
 --
--- TOC entry 187 (class 1259 OID 575868)
--- Name: participant_studies_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 202 (class 1259 OID 16504)
+-- Name: participant_studies_id_seq; Type: SEQUENCE; Schema: public; Owner: cerebralcortex
 --
 
 CREATE SEQUENCE participant_studies_id_seq
@@ -347,20 +471,20 @@ CREATE SEQUENCE participant_studies_id_seq
     CACHE 1;
 
 
-ALTER TABLE participant_studies_id_seq OWNER TO postgres;
+ALTER TABLE participant_studies_id_seq OWNER TO cerebralcortex;
 
 --
--- TOC entry 2317 (class 0 OID 0)
--- Dependencies: 187
--- Name: participant_studies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- TOC entry 2275 (class 0 OID 0)
+-- Dependencies: 202
+-- Name: participant_studies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cerebralcortex
 --
 
 ALTER SEQUENCE participant_studies_id_seq OWNED BY participant_studies.id;
 
 
 --
--- TOC entry 188 (class 1259 OID 575870)
--- Name: participants; Type: TABLE; Schema: public; Owner: postgres
+-- TOC entry 203 (class 1259 OID 16506)
+-- Name: participants; Type: TABLE; Schema: public; Owner: cerebralcortex
 --
 
 CREATE TABLE participants (
@@ -371,11 +495,11 @@ CREATE TABLE participants (
 );
 
 
-ALTER TABLE participants OWNER TO postgres;
+ALTER TABLE participants OWNER TO cerebralcortex;
 
 --
--- TOC entry 189 (class 1259 OID 575877)
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: postgres
+-- TOC entry 204 (class 1259 OID 16513)
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: cerebralcortex
 --
 
 CREATE TABLE schema_migrations (
@@ -383,11 +507,11 @@ CREATE TABLE schema_migrations (
 );
 
 
-ALTER TABLE schema_migrations OWNER TO postgres;
+ALTER TABLE schema_migrations OWNER TO cerebralcortex;
 
 --
--- TOC entry 190 (class 1259 OID 575883)
--- Name: studies; Type: TABLE; Schema: public; Owner: postgres
+-- TOC entry 205 (class 1259 OID 16519)
+-- Name: studies; Type: TABLE; Schema: public; Owner: cerebralcortex
 --
 
 CREATE TABLE studies (
@@ -399,11 +523,11 @@ CREATE TABLE studies (
 );
 
 
-ALTER TABLE studies OWNER TO postgres;
+ALTER TABLE studies OWNER TO cerebralcortex;
 
 --
--- TOC entry 191 (class 1259 OID 575889)
--- Name: studies_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- TOC entry 206 (class 1259 OID 16525)
+-- Name: studies_id_seq; Type: SEQUENCE; Schema: public; Owner: cerebralcortex
 --
 
 CREATE SEQUENCE studies_id_seq
@@ -414,60 +538,100 @@ CREATE SEQUENCE studies_id_seq
     CACHE 1;
 
 
-ALTER TABLE studies_id_seq OWNER TO postgres;
+ALTER TABLE studies_id_seq OWNER TO cerebralcortex;
 
 --
--- TOC entry 2318 (class 0 OID 0)
--- Dependencies: 191
--- Name: studies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- TOC entry 2276 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: studies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cerebralcortex
 --
 
 ALTER SEQUENCE studies_id_seq OWNED BY studies.id;
 
 
 --
--- TOC entry 2162 (class 2604 OID 575891)
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 2083 (class 2604 OID 16527)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: cerebralcortex
 --
 
 ALTER TABLE ONLY active_admin_comments ALTER COLUMN id SET DEFAULT nextval('active_admin_comments_id_seq'::regclass);
 
 
 --
--- TOC entry 2166 (class 2604 OID 575892)
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 2087 (class 2604 OID 16528)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: cerebralcortex
 --
 
 ALTER TABLE ONLY admin_users ALTER COLUMN id SET DEFAULT nextval('admin_users_id_seq'::regclass);
 
 
 --
--- TOC entry 2167 (class 2604 OID 575893)
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 2088 (class 2604 OID 16529)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: cerebralcortex
+--
+
+ALTER TABLE ONLY datapoints ALTER COLUMN id SET DEFAULT nextval('datapoints_id_seq'::regclass);
+
+
+--
+-- TOC entry 2089 (class 2604 OID 16530)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: cerebralcortex
+--
+
+ALTER TABLE ONLY datasources ALTER COLUMN id SET DEFAULT nextval('datasources_id_seq'::regclass);
+
+
+--
+-- TOC entry 2090 (class 2604 OID 16531)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: cerebralcortex
 --
 
 ALTER TABLE ONLY datastreams ALTER COLUMN id SET DEFAULT nextval('datastreams_id_seq'::regclass);
 
 
 --
--- TOC entry 2168 (class 2604 OID 575894)
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 2091 (class 2604 OID 16532)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: cerebralcortex
+--
+
+ALTER TABLE ONLY m_cerebrum_applications ALTER COLUMN id SET DEFAULT nextval('m_cerebrum_applications_id_seq'::regclass);
+
+
+--
+-- TOC entry 2092 (class 2604 OID 16533)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: cerebralcortex
+--
+
+ALTER TABLE ONLY m_cerebrum_platform_apps ALTER COLUMN id SET DEFAULT nextval('m_cerebrum_platform_apps_id_seq'::regclass);
+
+
+--
+-- TOC entry 2093 (class 2604 OID 16534)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: cerebralcortex
+--
+
+ALTER TABLE ONLY m_cerebrum_platforms ALTER COLUMN id SET DEFAULT nextval('m_cerebrum_platforms_id_seq'::regclass);
+
+
+--
+-- TOC entry 2094 (class 2604 OID 16535)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: cerebralcortex
 --
 
 ALTER TABLE ONLY participant_studies ALTER COLUMN id SET DEFAULT nextval('participant_studies_id_seq'::regclass);
 
 
 --
--- TOC entry 2170 (class 2604 OID 575895)
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- TOC entry 2096 (class 2604 OID 16536)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: cerebralcortex
 --
 
 ALTER TABLE ONLY studies ALTER COLUMN id SET DEFAULT nextval('studies_id_seq'::regclass);
 
 
 --
--- TOC entry 2172 (class 2606 OID 575898)
--- Name: active_admin_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2098 (class 2606 OID 16539)
+-- Name: active_admin_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: cerebralcortex
 --
 
 ALTER TABLE ONLY active_admin_comments
@@ -475,8 +639,8 @@ ALTER TABLE ONLY active_admin_comments
 
 
 --
--- TOC entry 2177 (class 2606 OID 575900)
--- Name: admin_users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2103 (class 2606 OID 16541)
+-- Name: admin_users_pkey; Type: CONSTRAINT; Schema: public; Owner: cerebralcortex
 --
 
 ALTER TABLE ONLY admin_users
@@ -484,8 +648,26 @@ ALTER TABLE ONLY admin_users
 
 
 --
--- TOC entry 2181 (class 2606 OID 575902)
--- Name: datastreams_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2107 (class 2606 OID 16543)
+-- Name: datapoints_pkey; Type: CONSTRAINT; Schema: public; Owner: cerebralcortex
+--
+
+ALTER TABLE ONLY datapoints
+    ADD CONSTRAINT datapoints_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2110 (class 2606 OID 16545)
+-- Name: datasources_pkey; Type: CONSTRAINT; Schema: public; Owner: cerebralcortex
+--
+
+ALTER TABLE ONLY datasources
+    ADD CONSTRAINT datasources_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2116 (class 2606 OID 16547)
+-- Name: datastreams_pkey; Type: CONSTRAINT; Schema: public; Owner: cerebralcortex
 --
 
 ALTER TABLE ONLY datastreams
@@ -493,7 +675,34 @@ ALTER TABLE ONLY datastreams
 
 
 --
--- TOC entry 2185 (class 2606 OID 575904)
+-- TOC entry 2120 (class 2606 OID 16549)
+-- Name: m_cerebrum_applications_pkey; Type: CONSTRAINT; Schema: public; Owner: cerebralcortex
+--
+
+ALTER TABLE ONLY m_cerebrum_applications
+    ADD CONSTRAINT m_cerebrum_applications_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2122 (class 2606 OID 16551)
+-- Name: m_cerebrum_platform_apps_pkey; Type: CONSTRAINT; Schema: public; Owner: cerebralcortex
+--
+
+ALTER TABLE ONLY m_cerebrum_platform_apps
+    ADD CONSTRAINT m_cerebrum_platform_apps_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2124 (class 2606 OID 16553)
+-- Name: m_cerebrum_platforms_pkey; Type: CONSTRAINT; Schema: public; Owner: cerebralcortex
+--
+
+ALTER TABLE ONLY m_cerebrum_platforms
+    ADD CONSTRAINT m_cerebrum_platforms_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2126 (class 2606 OID 16555)
 -- Name: oauth_client_details_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -502,8 +711,8 @@ ALTER TABLE ONLY oauth_client_details
 
 
 --
--- TOC entry 2189 (class 2606 OID 575906)
--- Name: participant_studies_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2130 (class 2606 OID 16557)
+-- Name: participant_studies_pkey; Type: CONSTRAINT; Schema: public; Owner: cerebralcortex
 --
 
 ALTER TABLE ONLY participant_studies
@@ -511,8 +720,8 @@ ALTER TABLE ONLY participant_studies
 
 
 --
--- TOC entry 2191 (class 2606 OID 575908)
--- Name: participants_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2132 (class 2606 OID 16559)
+-- Name: participants_pkey; Type: CONSTRAINT; Schema: public; Owner: cerebralcortex
 --
 
 ALTER TABLE ONLY participants
@@ -520,8 +729,8 @@ ALTER TABLE ONLY participants
 
 
 --
--- TOC entry 2194 (class 2606 OID 575910)
--- Name: studies_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2135 (class 2606 OID 16561)
+-- Name: studies_pkey; Type: CONSTRAINT; Schema: public; Owner: cerebralcortex
 --
 
 ALTER TABLE ONLY studies
@@ -529,88 +738,137 @@ ALTER TABLE ONLY studies
 
 
 --
--- TOC entry 2173 (class 1259 OID 575911)
--- Name: index_active_admin_comments_on_author_type_and_author_id; Type: INDEX; Schema: public; Owner: postgres
+-- TOC entry 2111 (class 1259 OID 16620)
+-- Name: datasourcetype; Type: INDEX; Schema: public; Owner: cerebralcortex
+--
+
+CREATE INDEX datasourcetype ON datasources USING btree (datasourcetype);
+
+
+--
+-- TOC entry 2099 (class 1259 OID 16562)
+-- Name: index_active_admin_comments_on_author_type_and_author_id; Type: INDEX; Schema: public; Owner: cerebralcortex
 --
 
 CREATE INDEX index_active_admin_comments_on_author_type_and_author_id ON active_admin_comments USING btree (author_type, author_id);
 
 
 --
--- TOC entry 2174 (class 1259 OID 575912)
--- Name: index_active_admin_comments_on_namespace; Type: INDEX; Schema: public; Owner: postgres
+-- TOC entry 2100 (class 1259 OID 16563)
+-- Name: index_active_admin_comments_on_namespace; Type: INDEX; Schema: public; Owner: cerebralcortex
 --
 
 CREATE INDEX index_active_admin_comments_on_namespace ON active_admin_comments USING btree (namespace);
 
 
 --
--- TOC entry 2175 (class 1259 OID 575913)
--- Name: index_active_admin_comments_on_resource_type_and_resource_id; Type: INDEX; Schema: public; Owner: postgres
+-- TOC entry 2101 (class 1259 OID 16564)
+-- Name: index_active_admin_comments_on_resource_type_and_resource_id; Type: INDEX; Schema: public; Owner: cerebralcortex
 --
 
 CREATE INDEX index_active_admin_comments_on_resource_type_and_resource_id ON active_admin_comments USING btree (resource_type, resource_id);
 
 
 --
--- TOC entry 2178 (class 1259 OID 575914)
--- Name: index_admin_users_on_email; Type: INDEX; Schema: public; Owner: postgres
+-- TOC entry 2104 (class 1259 OID 16565)
+-- Name: index_admin_users_on_email; Type: INDEX; Schema: public; Owner: cerebralcortex
 --
 
 CREATE UNIQUE INDEX index_admin_users_on_email ON admin_users USING btree (email);
 
 
 --
--- TOC entry 2179 (class 1259 OID 575915)
--- Name: index_admin_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: postgres
+-- TOC entry 2105 (class 1259 OID 16566)
+-- Name: index_admin_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: cerebralcortex
 --
 
 CREATE UNIQUE INDEX index_admin_users_on_reset_password_token ON admin_users USING btree (reset_password_token);
 
 
 --
--- TOC entry 2182 (class 1259 OID 575916)
--- Name: index_datastreams_on_datasource_id; Type: INDEX; Schema: public; Owner: postgres
+-- TOC entry 2108 (class 1259 OID 16567)
+-- Name: index_datapoints_on_datastream_id; Type: INDEX; Schema: public; Owner: cerebralcortex
+--
+
+CREATE INDEX index_datapoints_on_datastream_id ON datapoints USING btree (datastream_id);
+
+
+--
+-- TOC entry 2112 (class 1259 OID 16568)
+-- Name: index_datasources_on_m_cerebrum_application_id; Type: INDEX; Schema: public; Owner: cerebralcortex
+--
+
+CREATE INDEX index_datasources_on_m_cerebrum_application_id ON datasources USING btree (m_cerebrum_application_id);
+
+
+--
+-- TOC entry 2113 (class 1259 OID 16569)
+-- Name: index_datasources_on_m_cerebrum_platform_app_id; Type: INDEX; Schema: public; Owner: cerebralcortex
+--
+
+CREATE INDEX index_datasources_on_m_cerebrum_platform_app_id ON datasources USING btree (m_cerebrum_platform_app_id);
+
+
+--
+-- TOC entry 2114 (class 1259 OID 16570)
+-- Name: index_datasources_on_m_cerebrum_platform_id; Type: INDEX; Schema: public; Owner: cerebralcortex
+--
+
+CREATE INDEX index_datasources_on_m_cerebrum_platform_id ON datasources USING btree (m_cerebrum_platform_id);
+
+
+--
+-- TOC entry 2117 (class 1259 OID 16571)
+-- Name: index_datastreams_on_datasource_id; Type: INDEX; Schema: public; Owner: cerebralcortex
 --
 
 CREATE INDEX index_datastreams_on_datasource_id ON datastreams USING btree (datasource_id);
 
 
 --
--- TOC entry 2183 (class 1259 OID 575917)
--- Name: index_datastreams_on_participant_id; Type: INDEX; Schema: public; Owner: postgres
+-- TOC entry 2118 (class 1259 OID 16572)
+-- Name: index_datastreams_on_participant_id; Type: INDEX; Schema: public; Owner: cerebralcortex
 --
 
 CREATE INDEX index_datastreams_on_participant_id ON datastreams USING btree (participant_id);
 
 
 --
--- TOC entry 2186 (class 1259 OID 575918)
--- Name: index_participant_studies_on_participant_id; Type: INDEX; Schema: public; Owner: postgres
+-- TOC entry 2127 (class 1259 OID 16573)
+-- Name: index_participant_studies_on_participant_id; Type: INDEX; Schema: public; Owner: cerebralcortex
 --
 
 CREATE INDEX index_participant_studies_on_participant_id ON participant_studies USING btree (participant_id);
 
 
 --
--- TOC entry 2187 (class 1259 OID 575919)
--- Name: index_participant_studies_on_study_id; Type: INDEX; Schema: public; Owner: postgres
+-- TOC entry 2128 (class 1259 OID 16574)
+-- Name: index_participant_studies_on_study_id; Type: INDEX; Schema: public; Owner: cerebralcortex
 --
 
 CREATE INDEX index_participant_studies_on_study_id ON participant_studies USING btree (study_id);
 
 
 --
--- TOC entry 2192 (class 1259 OID 575920)
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: postgres
+-- TOC entry 2133 (class 1259 OID 16575)
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: cerebralcortex
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
 
 
 --
--- TOC entry 2195 (class 2606 OID 575921)
--- Name: fk_rails_2c9d94efa2; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2137 (class 2606 OID 16576)
+-- Name: fk_rails_03f1d65a1a; Type: FK CONSTRAINT; Schema: public; Owner: cerebralcortex
+--
+
+ALTER TABLE ONLY datasources
+    ADD CONSTRAINT fk_rails_03f1d65a1a FOREIGN KEY (m_cerebrum_application_id) REFERENCES m_cerebrum_applications(id);
+
+
+--
+-- TOC entry 2140 (class 2606 OID 16581)
+-- Name: fk_rails_2c9d94efa2; Type: FK CONSTRAINT; Schema: public; Owner: cerebralcortex
 --
 
 ALTER TABLE ONLY datastreams
@@ -618,8 +876,26 @@ ALTER TABLE ONLY datastreams
 
 
 --
--- TOC entry 2196 (class 2606 OID 575926)
--- Name: fk_rails_a427dc1be7; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2138 (class 2606 OID 16586)
+-- Name: fk_rails_6cd0b6fef5; Type: FK CONSTRAINT; Schema: public; Owner: cerebralcortex
+--
+
+ALTER TABLE ONLY datasources
+    ADD CONSTRAINT fk_rails_6cd0b6fef5 FOREIGN KEY (m_cerebrum_platform_id) REFERENCES m_cerebrum_platforms(id);
+
+
+--
+-- TOC entry 2141 (class 2606 OID 16591)
+-- Name: fk_rails_7fdf2c6e3e; Type: FK CONSTRAINT; Schema: public; Owner: cerebralcortex
+--
+
+ALTER TABLE ONLY datastreams
+    ADD CONSTRAINT fk_rails_7fdf2c6e3e FOREIGN KEY (datasource_id) REFERENCES datasources(id);
+
+
+--
+-- TOC entry 2142 (class 2606 OID 16596)
+-- Name: fk_rails_a427dc1be7; Type: FK CONSTRAINT; Schema: public; Owner: cerebralcortex
 --
 
 ALTER TABLE ONLY participant_studies
@@ -627,8 +903,8 @@ ALTER TABLE ONLY participant_studies
 
 
 --
--- TOC entry 2197 (class 2606 OID 575931)
--- Name: fk_rails_acbc1a23cd; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2143 (class 2606 OID 16601)
+-- Name: fk_rails_acbc1a23cd; Type: FK CONSTRAINT; Schema: public; Owner: cerebralcortex
 --
 
 ALTER TABLE ONLY participant_studies
@@ -636,7 +912,25 @@ ALTER TABLE ONLY participant_studies
 
 
 --
--- TOC entry 2311 (class 0 OID 0)
+-- TOC entry 2139 (class 2606 OID 16606)
+-- Name: fk_rails_bcd516299c; Type: FK CONSTRAINT; Schema: public; Owner: cerebralcortex
+--
+
+ALTER TABLE ONLY datasources
+    ADD CONSTRAINT fk_rails_bcd516299c FOREIGN KEY (m_cerebrum_platform_app_id) REFERENCES m_cerebrum_platform_apps(id);
+
+
+--
+-- TOC entry 2136 (class 2606 OID 16611)
+-- Name: fk_rails_fc298b36ca; Type: FK CONSTRAINT; Schema: public; Owner: cerebralcortex
+--
+
+ALTER TABLE ONLY datapoints
+    ADD CONSTRAINT fk_rails_fc298b36ca FOREIGN KEY (datastream_id) REFERENCES datastreams(id);
+
+
+--
+-- TOC entry 2264 (class 0 OID 0)
 -- Dependencies: 8
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -646,11 +940,5 @@ REVOKE ALL ON SCHEMA public FROM postgres;
 GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
-
--- Completed on 2016-05-30 16:02:25 CEST
-
---
--- PostgreSQL database dump complete
---
 
 
