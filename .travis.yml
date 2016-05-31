@@ -16,7 +16,7 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 
-script: ./gradlew :resource-server:test --debug
+script: ./gradlew :resource-server:test --info --stacktrace
 
 addons:
   hosts:
