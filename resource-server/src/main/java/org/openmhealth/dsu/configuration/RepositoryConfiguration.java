@@ -20,6 +20,7 @@ import org.openmhealth.dsu.repository.ClientDetailsRepository;
 import org.openmhealth.dsu.repository.MongoDataPointRepository;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
@@ -35,6 +36,7 @@ import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
         @Filter(type = ASSIGNABLE_TYPE, value = ClientDetailsRepository.class),
         @Filter(type = ASSIGNABLE_TYPE, value = MongoDataPointRepository.class)
 })
+@EnableJpaRepositories(basePackages = "org.openmhealth.dsu.repository", includeFilters = {
+})
 public class RepositoryConfiguration {
-
 }
