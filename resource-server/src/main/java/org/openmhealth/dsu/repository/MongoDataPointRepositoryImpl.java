@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Open mHealth
+ * Copyright 2016 Open mHealth
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ import static org.springframework.data.mongodb.core.query.Criteria.where;
 /**
  * @author Emerson Farrugia
  */
-public class MongoDataPointRepositoryImpl implements CustomDataPointRepository {
+public class MongoDataPointRepositoryImpl implements DataPointSearchRepositoryCustom {
 
     @Autowired
     private MongoOperations mongoOperations;
@@ -71,20 +71,21 @@ public class MongoDataPointRepositoryImpl implements CustomDataPointRepository {
         query.addCriteria(where("header.user_id").is(searchCriteria.getUserId()));
         query.addCriteria(where("header.schema_id.namespace").is(searchCriteria.getSchemaNamespace()));
         query.addCriteria(where("header.schema_id.name").is(searchCriteria.getSchemaName()));
-        query.addCriteria(where("header.schema_id.version.major").is(searchCriteria.getSchemaVersion().getMajor()));
-        query.addCriteria(where("header.schema_id.version.minor").is(searchCriteria.getSchemaVersion().getMinor()));
 
-        if (searchCriteria.getSchemaVersion().getQualifier().isPresent()) {
-            query.addCriteria(where("header.schema_id.version.qualifier")
-                    .is(searchCriteria.getSchemaVersion().getQualifier().get()));
-        }
-        else {
-            query.addCriteria(where("header.schema_id.version.qualifier").exists(false));
-        }
+        searchCriteria.getSchemaVersion().ifPresent(schemaVersion -> {
 
-        if (searchCriteria.getCreationTimestampRange().isPresent()) {
-            addCreationTimestampCriteria(query, searchCriteria.getCreationTimestampRange().get());
-        }
+            query.addCriteria(where("header.schema_id.version.major").is(schemaVersion.getMajor()));
+            query.addCriteria(where("header.schema_id.version.minor").is(schemaVersion.getMinor()));
+
+            if (schemaVersion.getQualifier().isPresent()) {
+                query.addCriteria(where("header.schema_id.version.qualifier").is(schemaVersion.getQualifier().get()));
+            }
+            else {
+                query.addCriteria(where("header.schema_id.version.qualifier").exists(false));
+            }
+        });
+
+        addCreationTimestampCriteria(query, searchCriteria.getCreationTimestampRange());
 
         return query;
     }

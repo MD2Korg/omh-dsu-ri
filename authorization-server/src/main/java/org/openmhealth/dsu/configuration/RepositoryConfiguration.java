@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Open mHealth
+ * Copyright 2016 Open mHealth
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,29 +16,22 @@
 
 package org.openmhealth.dsu.configuration;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
+import org.openmhealth.dsu.repository.EndUserRepository;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+
+import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
 
 
 /**
- * A configuration for the application as a whole. This also serves as the application entry point when launching the
- * application using Spring Boot.
+ * A configuration for Spring Data repositories.
  *
  * @author Emerson Farrugia
  */
 @Configuration
-@ComponentScan(
-        basePackages = "org.openmhealth",
-        excludeFilters = {
-                @Filter(value = EnableAutoConfiguration.class)
-        })
-@EnableAutoConfiguration
-public class Application {
-
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
+@EnableMongoRepositories(basePackages = "org.openmhealth.dsu.repository", includeFilters = {
+        @Filter(type = ASSIGNABLE_TYPE, value = EndUserRepository.class)
+})
+public class RepositoryConfiguration {
 }

@@ -16,32 +16,19 @@
 
 package org.openmhealth.dsu.repository;
 
-import org.openmhealth.dsu.domain.EndUser;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.Repository;
+import org.openmhealth.dsu.domain.DataPointSearchCriteria;
+import org.openmhealth.schema.domain.omh.DataPoint;
 
-import java.util.Optional;
+import javax.annotation.Nullable;
 
 
 /**
- * A repository of user accounts.
+ * A set of data point search repository methods not automatically implemented by Spring Data repositories.
  *
  * @author Emerson Farrugia
  */
-public interface EndUserRepository extends Repository<EndUser, String> {
+public interface DataPointSearchRepositoryCustom {
 
-    /**
-     * @see CrudRepository#findOne(java.io.Serializable)
-     */
-    Optional<EndUser> findOne(String username);
-
-    /**
-     * @see CrudRepository#save(Object)
-     */
-    EndUser save(EndUser endUser);
-
-    /**
-     * @see CrudRepository#delete(java.io.Serializable)
-     */
-    void delete(String username);
+    Iterable<DataPoint> findBySearchCriteria(DataPointSearchCriteria searchCriteria, @Nullable Integer offset,
+            @Nullable Integer limit);
 }

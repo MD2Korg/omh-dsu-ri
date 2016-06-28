@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Open mHealth
+ * Copyright 2016 Open mHealth
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.openmhealth.dsu.repository;
+package org.openmhealth.dsu.service;
 
 import org.openmhealth.dsu.domain.DataPointSearchCriteria;
 import org.openmhealth.schema.domain.omh.DataPoint;
@@ -23,12 +23,18 @@ import javax.annotation.Nullable;
 
 
 /**
- * A set of data point repository methods not automatically implemented by Spring Data repositories.
+ * A service that searches for data points.
  *
  * @author Emerson Farrugia
  */
-public interface CustomDataPointRepository {
+public interface DataPointSearchService {
 
+    /**
+     * @param searchCriteria the criteria that data points should match
+     * @param offset the index of the first matching data point to return
+     * @param limit the number of matching data points to return
+     * @return the result of the search
+     */
     Iterable<DataPoint> findBySearchCriteria(DataPointSearchCriteria searchCriteria, @Nullable Integer offset,
             @Nullable Integer limit);
 }

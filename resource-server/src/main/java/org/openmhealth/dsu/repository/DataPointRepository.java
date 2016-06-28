@@ -17,29 +17,33 @@
 package org.openmhealth.dsu.repository;
 
 import org.openmhealth.schema.domain.omh.DataPoint;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
-import org.springframework.data.repository.Repository;
 
-import java.util.Optional;
+import java.io.Serializable;
 
 
 /**
  * A repository of data points.
  *
- * @see org.springframework.data.repository.CrudRepository
  * @author Emerson Farrugia
  */
 @NoRepositoryBean
-public interface DataPointRepository extends Repository<DataPoint, String>, CustomDataPointRepository {
+public interface DataPointRepository extends DataPointSearchRepository {
 
-    boolean exists(String id);
+    /**
+     * @see CrudRepository#save(Object)
+     */
+    <S extends DataPoint> S save(S dataPoint);
 
-    Optional<DataPoint> findOne(String id);
-
-    DataPoint save(DataPoint dataPoint);
-
+    /**
+     * @see CrudRepository#save(Iterable)
+     */
     Iterable<DataPoint> save(Iterable<DataPoint> dataPoints);
 
+    /**
+     * @see CrudRepository#delete(Serializable)
+     */
     void delete(String id);
 
     Long deleteByIdAndHeaderUserId(String id, String userId);

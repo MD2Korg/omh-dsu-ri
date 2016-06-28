@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Open mHealth
+ * Copyright 2016 Open mHealth
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,8 @@
 
 package org.openmhealth.dsu.service;
 
-import org.openmhealth.dsu.domain.DataPointSearchCriteria;
 import org.openmhealth.schema.domain.omh.DataPoint;
 
-import javax.annotation.Nullable;
 import java.util.Optional;
 
 
@@ -33,9 +31,6 @@ public interface DataPointService {
     boolean exists(String id);
 
     Optional<DataPoint> findOne(String id);
-
-    Iterable<DataPoint> findBySearchCriteria(DataPointSearchCriteria searchCriteria, @Nullable Integer offset,
-            @Nullable Integer limit);
 
     DataPoint save(DataPoint dataPoint);
 

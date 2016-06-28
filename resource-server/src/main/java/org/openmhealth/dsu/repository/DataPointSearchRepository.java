@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Open mHealth
+ * Copyright 2016 Open mHealth
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,32 +16,30 @@
 
 package org.openmhealth.dsu.repository;
 
-import org.openmhealth.dsu.domain.EndUser;
+import org.openmhealth.schema.domain.omh.DataPoint;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.Repository;
 
+import java.io.Serializable;
 import java.util.Optional;
 
 
 /**
- * A repository of user accounts.
+ * A repository of data points that supports read-only operations.
  *
  * @author Emerson Farrugia
  */
-public interface EndUserRepository extends Repository<EndUser, String> {
+@NoRepositoryBean
+public interface DataPointSearchRepository extends Repository<DataPoint, String>, DataPointSearchRepositoryCustom {
 
     /**
-     * @see CrudRepository#findOne(java.io.Serializable)
+     * @see CrudRepository#exists(Serializable)
      */
-    Optional<EndUser> findOne(String username);
+    boolean exists(String id);
 
     /**
-     * @see CrudRepository#save(Object)
+     * @see CrudRepository#findOne(Serializable)
      */
-    EndUser save(EndUser endUser);
-
-    /**
-     * @see CrudRepository#delete(java.io.Serializable)
-     */
-    void delete(String username);
+    Optional<DataPoint> findOne(String id);
 }

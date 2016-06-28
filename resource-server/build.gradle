@@ -1,8 +1,24 @@
-description = 'An OAuth 2.0 resource server that manages data point resources.'
+description = "An OAuth 2.0 resource server that manages data point resources."
 
 dependencies {
-    compile 'com.github.fge:json-schema-validator:2.2.5'
+    compile project(":shared")
+    compile "com.google.guava:guava:${guavaVersion}"
+    compile "com.google.code.findbugs:jsr305:${jsr305Version}"
+    compile "javax.servlet:javax.servlet-api"
     compile "org.openmhealth.schema:omh-schema-sdk:${omhSchemaSdkVersion}"
+    compile "org.springframework.data:spring-data-mongodb"
+    compile "org.springframework:spring-web"
+    compile "org.springframework:spring-webmvc"
 
-    testCompile 'com.jayway.jsonpath:json-path'
+    runtime "org.hibernate:hibernate-validator"
+    runtime "org.mongodb:mongo-java-driver"
+    // TODO remove this once URL-based token validation is configured
+    runtime "org.postgresql:postgresql"
+    runtime "org.springframework.boot:spring-boot-starter-jetty"
+    // TODO remove this once URL-based token validation is configured
+    runtime "org.apache.tomcat:tomcat-jdbc" // JDBC connection pool
+}
+
+bootRepackage {
+    mainClass = "org.openmhealth.dsu.configuration.Application"
 }
